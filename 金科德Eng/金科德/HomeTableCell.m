@@ -14,6 +14,8 @@
 @synthesize indexLbl;
 @synthesize statusImgV;
 @synthesize statusLbl;
+@synthesize nameLbl;
+@synthesize button;
 
 - (void)dealloc
 {

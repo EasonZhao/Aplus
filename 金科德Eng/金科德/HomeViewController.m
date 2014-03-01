@@ -10,10 +10,12 @@
 #import "HomeTableView.h"
 #import "UdpSocket.h"
 #import "DataSource.h"
+#import "DBInterface.h"
 
 @interface HomeViewController ()
 {
     IBOutlet HomeTableView *tableView;
+    DBInterface *_db;
 }
 
 @property(nonatomic,retain)NSMutableArray *deviceAry;
@@ -27,6 +29,7 @@
 {
     [deviceAry release];
     [tableView release];
+    [_db release];
     [super dealloc];
 }
 
@@ -35,6 +38,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
     }
     return self;
 }

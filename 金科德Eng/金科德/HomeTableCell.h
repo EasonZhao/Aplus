@@ -22,6 +22,8 @@
 @property(nonatomic,readonly)IBOutlet UILabel *indexLbl;
 @property(nonatomic,readonly)IBOutlet UIImageView *statusImgV;
 @property(nonatomic,readonly)IBOutlet UILabel *statusLbl;
+@property(nonatomic,readonly)IBOutlet UILabel *nameLbl;
+@property(nonatomic,readonly)IBOutlet UIButton *button;
 @property(nonatomic,assign)id<HomeCellSwitchDelegate> delegate;
 
 @end

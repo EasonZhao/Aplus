@@ -292,6 +292,9 @@
 		8AE12FEE17DEE66900148AE9 /* TextPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE12FED17DEE66900148AE9 /* TextPicker.m */; };
 		8AE8DFCE183B422C00031A80 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AE8DFCD183B422C00031A80 /* Default.png */; };
 		8AE8F903180F9E7B00370CBB /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE8F902180F9E7B00370CBB /* AsyncUdpSocket.m */; };
+		9BC5BE0618C0723200353442 /* DBInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC5BE0518C0723200353442 /* DBInterface.m */; };
+		9BC5BE0818C0726800353442 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC5BE0718C0726800353442 /* libsqlite3.dylib */; };
+		9BC5BE0B18C178EA00353442 /* AAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC5BE0A18C178EA00353442 /* AAdapter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -665,6 +668,11 @@
 		8AE8DFCD183B422C00031A80 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8AE8F901180F9E7B00370CBB /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
 		8AE8F902180F9E7B00370CBB /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
+		9BC5BE0418C0723200353442 /* DBInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBInterface.h; sourceTree = "<group>"; };
+		9BC5BE0518C0723200353442 /* DBInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBInterface.m; sourceTree = "<group>"; };
+		9BC5BE0718C0726800353442 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		9BC5BE0918C178EA00353442 /* AAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAdapter.h; sourceTree = "<group>"; };
+		9BC5BE0A18C178EA00353442 /* AAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAdapter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -672,6 +680,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BC5BE0818C0726800353442 /* libsqlite3.dylib in Frameworks */,
 				8A765D8517D4440800592C78 /* CoreVideo.framework in Frameworks */,
 				8A765D8317D4440000592C78 /* QuartzCore.framework in Frameworks */,
 				8A765D8117D443F600592C78 /* AVFoundation.framework in Frameworks */,
@@ -895,6 +904,7 @@
 		8A765C3A17D43CB000592C78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9BC5BE0718C0726800353442 /* libsqlite3.dylib */,
 				8A765D8417D4440800592C78 /* CoreVideo.framework */,
 				8A765D8217D4440000592C78 /* QuartzCore.framework */,
 				8A765D8017D443F600592C78 /* AVFoundation.framework */,
@@ -925,6 +935,10 @@
 			children = (
 				8A765C4A17D43CB000592C78 /* AppDelegate.h */,
 				8A765C4B17D43CB000592C78 /* AppDelegate.m */,
+				9BC5BE0418C0723200353442 /* DBInterface.h */,
+				9BC5BE0918C178EA00353442 /* AAdapter.h */,
+				9BC5BE0A18C178EA00353442 /* AAdapter.m */,
+				9BC5BE0518C0723200353442 /* DBInterface.m */,
 				8A765C5817D43CCA00592C78 /* MainWindow.xib */,
 				8A765C5B17D43D5800592C78 /* BaseViewController.h */,
 				8A765C5C17D43D5800592C78 /* BaseViewController.m */,
@@ -1557,6 +1571,7 @@
 				8A9F1F91186925D5000FC0DE /* CocosDenshion.m in Sources */,
 				8A765D4B17D43DFA00592C78 /* ASIDownloadCache.m in Sources */,
 				8A765D4C17D43DFA00592C78 /* ASIFormDataRequest.m in Sources */,
+				9BC5BE0B18C178EA00353442 /* AAdapter.m in Sources */,
 				8A765D4D17D43DFA00592C78 /* ASIHTTPRequest.m in Sources */,
 				8A765D4E17D43DFA00592C78 /* ASIInputStream.m in Sources */,
 				8A9F1F9E186925D5000FC0DE /* SBJsonWriter.m in Sources */,
@@ -1592,6 +1607,7 @@
 				8A9F1F80186925D5000FC0DE /* MeScrollView.m in Sources */,
 				8A9F1F9C186925D5000FC0DE /* SBJsonTokeniser.m in Sources */,
 				8A7AAAE117DD8330009F4731 /* TimingViewController.m in Sources */,
+				9BC5BE0618C0723200353442 /* DBInterface.m in Sources */,
 				8A9F1F84186925D5000FC0DE /* MeTextField.m in Sources */,
 				8A9F1F7B186925D5000FC0DE /* MeParser.m in Sources */,
 				8A7AAAE617DD873E009F4731 /* TimeEditViewController.m in Sources */,

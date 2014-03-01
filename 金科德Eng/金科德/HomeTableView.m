@@ -10,6 +10,8 @@
 #import "HomeTableCell.h"
 #import "SwitchDetailViewController.h"
 #import "UdpSocket.h"
+#import "DBInterface.h"
+#import "AAdapter.h"
 
 @interface HomeTableView ()<HomeCellSwitchDelegate>
 {
@@ -46,7 +48,9 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
 
 -(void)initialize
 {
-    aryData = [[NSMutableArray alloc]initWithObjects:@"",@"", nil];
+    //aryData = [[NSMutableArray alloc]initWithObjects:@"",@"", nil];
+    //此处载入设备记录
+    aryData = [[DBInterface instance] readAdapterInfo];
 }
 
 -(void)awakeFromNib
@@ -105,6 +109,12 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     HomeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE_ID_Cell];
     cell.delegate = self;
     cell.indexLbl.text = [NSString stringWithFormat:@"%d",indexPath.row+1];
+    AAdapter *ada = [aryData objectAtIndex:indexPath.row];
+    //设置名称
+    cell.nameLbl.text = ada.name;
+    //设置图标
+    UIImage *image = [UIImage imageNamed:@"插座图标.png"];
+    [cell.button setBackgroundImage:image forState:UIControlStateNormal];
     return cell;
 }
 
@@ -128,13 +138,26 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     [switchDetail release];
 }
 
-/*
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle==UITableViewCellEditingStyleDelete) {
+        AAdapter *ada = [aryData objectAtIndex:indexPath.row];
+        [ada deleteThisAdapter];
+        [aryData removeObjectAtIndex:indexPath.row];
+        [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
 }
-*/
+
 
 @end
