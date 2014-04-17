@@ -13,11 +13,26 @@
 @implementation AAdapter
 {
     int _id;
+    enum DevState stat_;
 }
 
 @synthesize name = _name;
 
 @synthesize ico = _ico;
+
+- (id)initWithData:(NSData *)data
+{
+    if (self = [super init]) {
+        Byte *pData = (Byte*)[data bytes];
+        _id = pData[0];
+        if (pData[2]==0x01) {
+            stat_ = ADA_ON;
+        } else if (pData[2]==0x00) {
+            stat_ = ADA_OFF;
+        }
+    }
+    return self;
+}
 
 - (void)setId:(int)id
 {
@@ -28,4 +43,10 @@
 {
     [[DBInterface instance] deleteAdapter:_id];
 }
+
+- (int)getState
+{
+    return stat_;
+}
+
 @end

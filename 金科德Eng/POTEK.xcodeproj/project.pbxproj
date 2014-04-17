@@ -292,6 +292,7 @@
 		8AE12FEE17DEE66900148AE9 /* TextPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE12FED17DEE66900148AE9 /* TextPicker.m */; };
 		8AE8DFCE183B422C00031A80 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AE8DFCD183B422C00031A80 /* Default.png */; };
 		8AE8F903180F9E7B00370CBB /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE8F902180F9E7B00370CBB /* AsyncUdpSocket.m */; };
+		9B85CCA718F5510F004B16DA /* IPAddress.c in Sources */ = {isa = PBXBuildFile; fileRef = 9B85CCA618F5510F004B16DA /* IPAddress.c */; };
 		9BC5BE0618C0723200353442 /* DBInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC5BE0518C0723200353442 /* DBInterface.m */; };
 		9BC5BE0818C0726800353442 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC5BE0718C0726800353442 /* libsqlite3.dylib */; };
 		9BC5BE0B18C178EA00353442 /* AAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC5BE0A18C178EA00353442 /* AAdapter.m */; };
@@ -668,6 +669,8 @@
 		8AE8DFCD183B422C00031A80 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8AE8F901180F9E7B00370CBB /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
 		8AE8F902180F9E7B00370CBB /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
+		9B85CCA518F550E0004B16DA /* IPAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPAddress.h; sourceTree = "<group>"; };
+		9B85CCA618F5510F004B16DA /* IPAddress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IPAddress.c; sourceTree = "<group>"; };
 		9BC5BE0418C0723200353442 /* DBInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBInterface.h; sourceTree = "<group>"; };
 		9BC5BE0518C0723200353442 /* DBInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBInterface.m; sourceTree = "<group>"; };
 		9BC5BE0718C0726800353442 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -958,6 +961,8 @@
 				8A0CB96E181116B8004C539B /* WeekSwitch.m */,
 				8A0CB9671810FABE004C539B /* UdpSocket.h */,
 				8A0CB9681810FABE004C539B /* UdpSocket.m */,
+				9B85CCA518F550E0004B16DA /* IPAddress.h */,
+				9B85CCA618F5510F004B16DA /* IPAddress.c */,
 				8A765C5A17D43D2B00592C78 /* 首页 */,
 				8ADDAA1617D9B1800033035B /* 设置 */,
 				8ADDAA1517D9B17E0033035B /* 服务 */,
@@ -1614,6 +1619,7 @@
 				8A9F1F7E186925D5000FC0DE /* MePickerButton.m in Sources */,
 				8A7AAAEB17DD8A1C009F4731 /* AddDeviceViewController.m in Sources */,
 				8A9F1F7A186925D5000FC0DE /* MeLabel.m in Sources */,
+				9B85CCA718F5510F004B16DA /* IPAddress.c in Sources */,
 				8A9F1F9D186925D5000FC0DE /* SBJsonUTF8Stream.m in Sources */,
 				8AE12FDE17DED54200148AE9 /* EditViewController.m in Sources */,
 				8AE12FE217DEDE7500148AE9 /* TimingTableView.m in Sources */,

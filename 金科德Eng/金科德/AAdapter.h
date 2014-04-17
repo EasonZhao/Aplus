@@ -7,6 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+enum DevState
+{
+    ADA_ON = 0,
+    ADA_OFF
+};
 
 @interface AAdapter : NSObject
 
@@ -16,7 +21,11 @@
 @property(nonatomic, retain) NSString *ico;
 
 
+- (id)initWithData:(NSData*)data;
+
 - (void)setId:(int)id;
 
 - (void)deleteThisAdapter;
+
+- (int)getState;
 @end

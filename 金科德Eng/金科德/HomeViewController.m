@@ -11,25 +11,29 @@
 #import "UdpSocket.h"
 #import "DataSource.h"
 #import "DBInterface.h"
+#include "IPAddress.h"
+#import "AAdapter.h"
 
 @interface HomeViewController ()
 {
     IBOutlet HomeTableView *tableView;
     DBInterface *_db;
+    UdpSocket *socket_;
+    NSString *netIP_;           //中心节点ip
+    NSTimer *timer_;
+    NSMutableArray *ipAddressArr_;
 }
 
-@property(nonatomic,retain)NSMutableArray *deviceAry;
 
 @end
 
 @implementation HomeViewController
-@synthesize deviceAry;
 
 - (void)dealloc
 {
-    [deviceAry release];
     [tableView release];
     [_db release];
+    [socket_ release];
     [super dealloc];
 }
 
@@ -39,6 +43,7 @@
     if (self) {
         // Custom initialization
         
+        
     }
     return self;
 }
@@ -46,6 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    socket_ = [[UdpSocket alloc] initWithDelegate:self];
     // Do any additional setup after loading the view from its nib.
 //    UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:@"首页" image:nil tag:0];
 //    [item setFinishedSelectedImage:[UIImage imageNamed:@"homeBarS"] withFinishedUnselectedImage:[UIImage imageNamed:@"homeBar"]];
@@ -53,7 +59,77 @@
 //    [item release];
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];
     self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(refresh) ImageName:@"刷新"];
+    [self connectNetPort];
+}
+
+- (void)timeoutHandle
+{
+    if (netIP_) {
+        NSLog(@"connect net failure");
+    } else {
+        NSLog(@"connect net success");
+    }
+}
+
+- (void)connectNetPort
+{
+    //发送0xa1
+    [socket_ checkSearchCode];
+    //启动定时器
+    if (!timer_) {
+        [timer_ invalidate];
+    }
+    timer_ = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
+}
+
+- (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
+{
+    //如果是本机ip，不做处理
+    if (!ipAddressArr_) {
+        ipAddressArr_ = [[NSMutableArray alloc] init];
+        InitAddresses();
+        GetIPAddresses();
+        GetHWAddresses();
+        for (int i=0; i<MAXADDRS; i++) {
+            if (ip_addrs[i]==0) {
+                break;
+            }
+            NSString *str = [[NSString alloc] initWithUTF8String:ip_names[i]];
+            [ipAddressArr_ addObject:str];
+        }
+    }
+    //NSLog(@"%@", host);
+    for (NSString *str in ipAddressArr_) {
+        NSRange fundObj = [host rangeOfString:str options:NSCaseInsensitiveSearch];
+        if (fundObj.length>0) {
+            return NO;
+        }
+         
+        if (!data) {
+            return FALSE;
+        }
+        Byte *pData = (Byte*)[data bytes];
+        if (pData[0]!=0x41 || pData[1]!=0x54) {
+            return FALSE;
+        }
+    }
     
+    
+    [timer_ invalidate];
+    //[SVProgressHUD dismiss];
+    netIP_ = [[NSString alloc] initWithString:host];
+    Byte *pData = (Byte*)[data bytes];
+    Byte *pos = pData+24;
+    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    while (*pos!=0xfe) {
+        NSData *tmp = [[NSData alloc] initWithBytes:pos length:3];
+        AAdapter *ada = [[AAdapter alloc] initWithData: tmp];
+        [arr addObject:ada];
+        pos += 3;
+    }
+    tableView.aryData = arr;
+    [tableView reloadData];
+    return YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -64,7 +140,7 @@
 
 -(void)refresh
 {
-    [deviceAry removeAllObjects];
+    //[deviceAry removeAllObjects];
 //    UdpSocket *udp = [[UdpSocket alloc]initWithDelegate:self];
 //    [udp checkStatus:nil];
 }
@@ -88,84 +164,6 @@
     NSLog(@"%s %d", __FUNCTION__, __LINE__);
 }
 
-/**
- * Called when the socket has received the requested datagram.
- *
- * Due to the nature of UDP, you may occasionally receive undesired packets.
- * These may be rogue UDP packets from unknown hosts,
- * or they may be delayed packets arriving after retransmissions have already occurred.
- * It's important these packets are properly ignored, while not interfering with the flow of your implementation.
- * As an aid, this delegate method has a boolean return value.
- * If you ever need to ignore a received packet, simply return NO,
- * and AsyncUdpSocket will continue as if the packet never arrived.
- * That is, the original receive request will still be queued, and will still timeout as usual if a timeout was set.
- * For example, say you requested to receive data, and you set a timeout of 500 milliseconds, using a tag of 15.
- * If rogue data arrives after 250 milliseconds, this delegate method would be invoked, and you could simply return NO.
- * If the expected data then arrives within the next 250 milliseconds,
- * this delegate method will be invoked, with a tag of 15, just as if the rogue data never appeared.
- *
- * Under normal circumstances, you simply return YES from this method.
- **/
-- (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
-{
-    //Byte *byte = (Byte*)[data bytes];
-    NSString *localIP = [AppWindow localWiFiIPAddress];
-    NSString *response = [NSString stringWithFormat:@"%@",data];
-    NSString *s = [[[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding] autorelease];
-    NSLog(@"HomeVC\nreceive => tag %ld\nresponse => %@ \nresponseStr => %@ \nhost => %@",tag,response,s,host);
-    response = [response substringWithRange:NSMakeRange(1, response.length-2)];
-    response = [response stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if (localIP&&localIP.length) {
-        NSRange range = [host rangeOfString:localIP];
-        if(range.location==NSNotFound)
-        {
-            NSString *responseHead = [response substringWithRange:NSMakeRange(0, 4)];
-            responseHead = [AppWindow stringFromHexString:responseHead];
-            NSString *responseMac = [response substringWithRange:NSMakeRange(6, 12)];
-            NSLog(@"responseMac %@",responseMac);
-            NSString *responseSecretKey = [response substringWithRange:NSMakeRange(18, 12)];
-            NSLog(@"responseSecretKey %@",responseSecretKey);
-            NSString *status = [response substringWithRange:NSMakeRange(30, 2)];
-            NSLog(@"status %@",status);
-            //response = [AppWindow stringFromHexString:response];
-            NSLog(@"responseHead %@",responseHead);
-            if (!deviceAry) {
-                deviceAry = [[NSMutableArray alloc]init];
-            }
-            [deviceAry addObject:response];
-            tableView.aryData = deviceAry;
-            [tableView reloadData];
-//        DataSource *dataSource = [DataSource sharedDataSource];
-//        NSMutableArray *savedDeveiceAry = [dataSource deviceDatas];
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"where mac == '%@'",responseMac];
-//        NSArray *filteredAry = [savedDeveiceAry filteredArrayUsingPredicate:predicate];
-//        if (!filteredAry.count) {
-//            [dataSource newDeviceData:responseMac];
-//        }
-        }
-    }
-    
-    
-    /*
-    NSString *response = [NSString stringWithFormat:@"%@",data];
-    NSLog(@"response %@",response);
-    response = [response stringByReplacingOccurrencesOfString:@" " withString:@""];
-    response = [response substringWithRange:NSMakeRange(1, response.length-2)];
-    NSString *responseHead = [response substringWithRange:NSMakeRange(0, 4)];
-    responseHead = [AppWindow stringFromHexString:responseHead];
-    NSString *responseMac = [response substringWithRange:NSMakeRange(6, 12)];
-    NSLog(@"responseMac %@",responseMac);
-    NSString *responseSecretKey = [response substringWithRange:NSMakeRange(18, 12)];
-    NSLog(@"responseSecretKey %@",responseSecretKey);
-    NSString *status = [response substringWithRange:NSMakeRange(19, 2)];
-    NSLog(@"status %@",status);
-    response = [AppWindow stringFromHexString:response];
-    NSLog(@"responseHead %@",responseHead);
-    NSString *s = [[[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding] autorelease];
-    NSLog(@"didReceiveData, host = %@, tag = %ld dataString = %@", host, tag,s);
-    */
-    return NO;
-}
 /**
  * Called if an error occurs while trying to receive a requested datagram.
  * This is generally due to a timeout, but could potentially be something else if some kind of OS error occurred.

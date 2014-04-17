@@ -108,9 +108,11 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (!indexPath.row) {
-        AddDeviceViewController *addDevice = [[AddDeviceViewController alloc]initWithNibName:@"AddDeviceViewController" bundle:nil];
-        [[AppWindow getNavigationController] pushViewController:addDevice animated:YES];
-        [addDevice release];
+        
+//        AddDeviceViewController *addDevice = [[AddDeviceViewController alloc]initWithNibName:@"AddDeviceViewController" bundle:nil];
+//        [[AppWindow getNavigationController] pushViewController:addDevice animated:YES];
+//        [addDevice release];
+        
     }
 }
 

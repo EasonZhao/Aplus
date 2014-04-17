@@ -30,4 +30,7 @@
 //倒计时
 -(void)countDownDevice:(NSString*)mac enable:(BOOL)enable hour:(Byte)hour min:(Byte)min sec:(Byte)sec;
 
+-(void)checkSearchCode;
+
+-(void)addDevice;
 @end

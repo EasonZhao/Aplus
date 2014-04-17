@@ -21,6 +21,7 @@
 -(IBAction)allOn:(id)sender;
 -(IBAction)allOff:(id)sender;
 
+
 @end
 
 @implementation HomeTableView
@@ -50,7 +51,7 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
 {
     //aryData = [[NSMutableArray alloc]initWithObjects:@"",@"", nil];
     //此处载入设备记录
-    aryData = [[DBInterface instance] readAdapterInfo];
+    //aryData = [[DBInterface instance] readAdapterInfo];
 }
 
 -(void)awakeFromNib
@@ -69,7 +70,7 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
 
 -(IBAction)allOn:(id)sender
 {
-    for (int i=0; i<aryData.count; i++) {
+    for (int i=0; i<self.aryData.count; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
         cell.isON = YES;
@@ -80,7 +81,7 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
 
 -(IBAction)allOff:(id)sender
 {
-    for (int i=0; i<aryData.count; i++) {
+    for (int i=0; i<self.aryData.count; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
         cell.isON = NO;
@@ -101,7 +102,7 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return aryData.count;
+    return self.aryData.count;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -109,12 +110,23 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     HomeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE_ID_Cell];
     cell.delegate = self;
     cell.indexLbl.text = [NSString stringWithFormat:@"%d",indexPath.row+1];
-    AAdapter *ada = [aryData objectAtIndex:indexPath.row];
+    AAdapter *ada = [self.aryData objectAtIndex:indexPath.row];
     //设置名称
     cell.nameLbl.text = ada.name;
     //设置图标
     UIImage *image = [UIImage imageNamed:@"插座图标.png"];
     [cell.button setBackgroundImage:image forState:UIControlStateNormal];
+    //设置状态
+    switch ([ada getState]) {
+        case ADA_ON:
+            [cell.statusLbl setText:@"ON"];
+            break;
+        case ADA_OFF:
+            [cell.statusLbl setText:@"OFF"];
+            break;
+        default:
+            break;
+    }
     return cell;
 }
 
@@ -126,7 +138,7 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *deviceInfo = [aryData objectAtIndex:indexPath.row];
+    NSString *deviceInfo = [self.aryData objectAtIndex:indexPath.row];
     HomeTableCell *cell = (HomeTableCell*)[tableView cellForRowAtIndexPath:indexPath];
     SwitchDetailViewController *switchDetail = [[SwitchDetailViewController alloc]initWithNibName:@"SwitchDetailViewController" bundle:nil];
 //    switchDetail.mac =
@@ -146,9 +158,9 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle==UITableViewCellEditingStyleDelete) {
-        AAdapter *ada = [aryData objectAtIndex:indexPath.row];
+        AAdapter *ada = [self.aryData objectAtIndex:indexPath.row];
         [ada deleteThisAdapter];
-        [aryData removeObjectAtIndex:indexPath.row];
+        //[self.aryData removeObjectAtIndex:indexPath.row];
         [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
 }

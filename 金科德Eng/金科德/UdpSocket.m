@@ -107,13 +107,17 @@ static id _shared_ = NULL;
     byte[15] = 0x01;
     byte[17] = 0xfe;
     
+    Byte cmd[] = { 0x41, 0x54, 0x18, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0xa1,
+        0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0x01,
+        0x04, 0x01, 0x01, 0xfe};
+    
     if (isOn) {
-        byte[16] = 0x00;
-        [self sendData:[NSData dataWithBytes:byte length:18]];
+        //byte[16] = 0x00;
+        [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)]];
     }else
     {
-        byte[16] = 0x01;
-        [self sendData:[NSData dataWithBytes:byte length:18]];
+        //byte[16] = 0x01;
+        [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)]];
     }
 }
 
@@ -240,12 +244,17 @@ static id _shared_ = NULL;
 }
 
 //查询搜索码
-- (IBAction)checkSearchCode:(UIButton *)sender {
-    NSString *checkSearchCode = @"AT+ASWD";
-    [self sendData:[checkSearchCode dataUsingEncoding:NSUTF8StringEncoding]];
+- (void)checkSearchCode
+{
+    Byte tmp[] = {0x41, 0x54, 0x17, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x31, 0x32,
+        0x33, 0x34, 0x35, 0x36, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0x01, 0x01, 0xa3, 0xfe };
+    NSLog(@"%lu", sizeof(tmp));
+    NSData* data = [[NSData alloc] initWithBytes:tmp length:sizeof(tmp)];
+    [self sendData: data];
 }
 
-- (IBAction)smartlink:(UIButton *)sender {
+- (void)smartlink
+{
     NSString *searchCode = @"HF-A11ASSISTHREAD";
     [self sendData:[searchCode dataUsingEncoding:NSUTF8StringEncoding]];
 }
@@ -270,6 +279,14 @@ static id _shared_ = NULL;
 		[alert show];
 		[alert release];
 	}
+}
+
+-(void)addDevice
+{
+    Byte cmd[] = {0x41, 0x54, 0x17, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x31, 0x32,
+        0x33, 0x34, 0x35, 0x36, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0x01, 0x01, 0xa5, 0xfe };
+    NSData* data = [[NSData alloc] initWithBytes:cmd length:sizeof(cmd)];
+    [self sendData: data];
 }
 
 #pragma mark -
