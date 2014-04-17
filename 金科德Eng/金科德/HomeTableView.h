@@ -10,4 +10,6 @@
 
 @interface HomeTableView : MeTableView
 
+@property(nonatomic,retain)NSMutableArray *cells;
+
 @end

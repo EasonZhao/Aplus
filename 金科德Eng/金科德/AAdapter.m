@@ -19,6 +19,7 @@
 @synthesize name = _name;
 
 @synthesize ico = _ico;
+@synthesize socket = _socket;
 
 - (id)initWithData:(NSData *)data
 {
@@ -30,6 +31,7 @@
         } else if (pData[2]==0x00) {
             stat_ = ADA_OFF;
         }
+        self.name = @"SOCKET";
     }
     return self;
 }

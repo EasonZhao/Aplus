@@ -9,6 +9,9 @@
 #import "HomeTableCell.h"
 
 @implementation HomeTableCell
+{
+    NSTimer *timer_;        
+}
 @synthesize delegate;
 @synthesize isON;
 @synthesize indexLbl;
@@ -16,6 +19,7 @@
 @synthesize statusLbl;
 @synthesize nameLbl;
 @synthesize button;
+@synthesize socket = socket_;
 
 - (void)dealloc
 {
@@ -34,8 +38,25 @@
     return self;
 }
 
+- (void)timeoutHandle
+{
+    [self.button setEnabled:TRUE];
+}
+
+-(void)sendSwitchCmd:(BOOL)isNo
+{
+     Byte devID = [self.indexLbl.text intValue];
+    [self.socket switchDevice:isNo devID:devID];
+    [self.button setEnabled:FALSE];
+    //启动定时器
+    timer_ = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
+}
+
 - (IBAction)switchBtn:(UIButton *)sender {
     sender.selected = !sender.selected;
+    [self sendSwitchCmd:sender.selected];
+    
+    /*
     statusLbl.text = sender.selected?@"on":@"off";
     self.isON = sender.selected;
     UITableView *tableView = (UITableView*)self.superview;
@@ -48,7 +69,7 @@
     NSIndexPath *indexPath = [tableView indexPathForCell:self];
     if (delegate&&[delegate respondsToSelector:@selector(tableView:switchAtIndexPath:status:)]) {
         [delegate tableView:tableView switchAtIndexPath:indexPath status:sender.selected];
-    }
+    }*/
 }
 
 /*

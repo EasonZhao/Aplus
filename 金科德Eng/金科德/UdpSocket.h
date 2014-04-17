@@ -11,17 +11,23 @@
 
 @interface UdpSocket : NSObject
 @property (nonatomic, retain) AsyncUdpSocket *udpSocket;
+@property (nonatomic, retain) NSData *netMac;
+
+//设置网关的ip地址，从广播模式切换到udp端对端
+-(BOOL)setNetIp:(NSString*)ip;
 
 //静态返回
 //+ (id)shared;
 -(id)initWithDelegate:(id)delegate_;
--(void)link:(NSString *)mac;
+-(void)link;
 
 //状态查询
--(void)checkStatus:(NSString *)mac;
+-(void)checkStatus;
 
-- (void)switchDevice:(NSString *)mac status:(BOOL)isOn;
+//开关量命令
+- (void)switchDevice:(BOOL)isOn devID:(Byte)devID;
 
+/*
 //定时
 -(void)timingDevice:(NSString *)mac enable:(BOOL)enable weekON:(Byte)weekON hourON:(Byte)hourON hourRand:(BOOL)rand minON:(Byte)minON weekOFF:(Byte)weekOFF hourOFF:(Byte)hourOFF minOFF:(Byte)minOFF;
 //定时组
@@ -29,7 +35,7 @@
 
 //倒计时
 -(void)countDownDevice:(NSString*)mac enable:(BOOL)enable hour:(Byte)hour min:(Byte)min sec:(Byte)sec;
-
+*/
 -(void)checkSearchCode;
 
 -(void)addDevice;

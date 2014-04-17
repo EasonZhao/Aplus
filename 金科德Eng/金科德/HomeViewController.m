@@ -13,6 +13,7 @@
 #import "DBInterface.h"
 #include "IPAddress.h"
 #import "AAdapter.h"
+#import "HomeTableCell.h"
 
 @interface HomeViewController ()
 {
@@ -23,7 +24,6 @@
     NSTimer *timer_;
     NSMutableArray *ipAddressArr_;
 }
-
 
 @end
 
@@ -59,6 +59,7 @@
 //    [item release];
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];
     self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(refresh) ImageName:@"刷新"];
+    
     [self connectNetPort];
 }
 
@@ -84,52 +85,61 @@
 
 - (BOOL)onUdpSocket:(AsyncUdpSocket *)sock didReceiveData:(NSData *)data withTag:(long)tag fromHost:(NSString *)host port:(UInt16)port
 {
-    //如果是本机ip，不做处理
-    if (!ipAddressArr_) {
-        ipAddressArr_ = [[NSMutableArray alloc] init];
-        InitAddresses();
-        GetIPAddresses();
-        GetHWAddresses();
-        for (int i=0; i<MAXADDRS; i++) {
-            if (ip_addrs[i]==0) {
-                break;
+    if (!netIP_) {
+        //如果是本机ip，不做处理
+        if (!ipAddressArr_) {
+            ipAddressArr_ = [[NSMutableArray alloc] init];
+            InitAddresses();
+            GetIPAddresses();
+            GetHWAddresses();
+            for (int i=0; i<MAXADDRS; i++) {
+                if (ip_addrs[i]==0) {
+                    break;
+                }
+                NSString *str = [[NSString alloc] initWithUTF8String:ip_names[i]];
+                [ipAddressArr_ addObject:str];
             }
-            NSString *str = [[NSString alloc] initWithUTF8String:ip_names[i]];
-            [ipAddressArr_ addObject:str];
         }
-    }
-    //NSLog(@"%@", host);
-    for (NSString *str in ipAddressArr_) {
-        NSRange fundObj = [host rangeOfString:str options:NSCaseInsensitiveSearch];
-        if (fundObj.length>0) {
-            return NO;
+        for (NSString *str in ipAddressArr_) {
+            NSRange fundObj = [host rangeOfString:str options:NSCaseInsensitiveSearch];
+            if (fundObj.length>0) {
+                return NO;
+            }
+            
+            if (!data) {
+                return FALSE;
+            }
+            Byte *pData = (Byte*)[data bytes];
+            if (pData[0]!=0x41 || pData[1]!=0x54) {
+                return FALSE;
+            }
         }
-         
-        if (!data) {
-            return FALSE;
-        }
+        
+        [timer_ invalidate];
+        socket_.netMac = data;
+        socket_.netMac = [socket_.netMac subdataWithRange:NSMakeRange(3, 6)];
+        //[SVProgressHUD dismiss];
+        netIP_ = [[NSString alloc] initWithString:host];
         Byte *pData = (Byte*)[data bytes];
-        if (pData[0]!=0x41 || pData[1]!=0x54) {
-            return FALSE;
+        Byte *pos = pData+24;
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+        while (*pos!=0xfe) {
+            NSData *tmp = [[NSData alloc] initWithBytes:pos length:3];
+            AAdapter *ada = [[AAdapter alloc] initWithData: tmp];
+            ada.socket = socket_;
+            [arr addObject:ada];
+            pos += 3;
         }
+        tableView.aryData = arr;
+        [tableView reloadData];
+        
+        //切换udp传输类型
+        BOOL ret = [socket_ setNetIp:host];
+        assert(ret);
+    } else {
+        
     }
-    
-    
-    [timer_ invalidate];
-    //[SVProgressHUD dismiss];
-    netIP_ = [[NSString alloc] initWithString:host];
-    Byte *pData = (Byte*)[data bytes];
-    Byte *pos = pData+24;
-    NSMutableArray *arr = [[NSMutableArray alloc] init];
-    while (*pos!=0xfe) {
-        NSData *tmp = [[NSData alloc] initWithBytes:pos length:3];
-        AAdapter *ada = [[AAdapter alloc] initWithData: tmp];
-        [arr addObject:ada];
-        pos += 3;
-    }
-    tableView.aryData = arr;
-    [tableView reloadData];
-    return YES;
+        return YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated

@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UdpSocket.h"
+
 enum DevState
 {
     ADA_ON = 0,
@@ -19,6 +21,8 @@ enum DevState
 @property(nonatomic, retain) NSString *name;
 
 @property(nonatomic, retain) NSString *ico;
+
+@property(nonatomic, retain) UdpSocket *socket;
 
 
 - (id)initWithData:(NSData*)data;

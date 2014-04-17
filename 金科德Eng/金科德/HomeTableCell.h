@@ -7,6 +7,7 @@
 //
 
 #import "MeTableCell.h"
+#import "UdpSocket.h"
 
 @protocol HomeCellSwitchDelegate <NSObject>
 
@@ -18,6 +19,9 @@
 {
     //IBOutlet UILabel *statusLbl;
 }
+
+-(void)sendSwitchCmd:(BOOL)isNo;
+
 @property(nonatomic)BOOL isON;
 @property(nonatomic,readonly)IBOutlet UILabel *indexLbl;
 @property(nonatomic,readonly)IBOutlet UIImageView *statusImgV;
@@ -25,5 +29,5 @@
 @property(nonatomic,readonly)IBOutlet UILabel *nameLbl;
 @property(nonatomic,readonly)IBOutlet UIButton *button;
 @property(nonatomic,assign)id<HomeCellSwitchDelegate> delegate;
-
+@property(nonatomic,assign) UdpSocket *socket;
 @end

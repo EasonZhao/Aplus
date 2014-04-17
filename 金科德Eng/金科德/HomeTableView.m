@@ -26,6 +26,8 @@
 
 @implementation HomeTableView
 
+@synthesize cells = cells_;
+
 static NSString *REUSE_ID_Cell = @"HomeTableCell";
 
 -(id)initWithFrame:(CGRect)frame
@@ -57,6 +59,7 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
 -(void)awakeFromNib
 {
     [self registerNIBs];
+    self.cells = [[NSMutableArray alloc] init];
 }
 
 - (void)registerNIBs
@@ -73,8 +76,9 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
     for (int i=0; i<self.aryData.count; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
-        cell.isON = YES;
-        cell.statusLbl.text = @"on";
+        [cell sendSwitchCmd:YES];
+        //cell.isON = YES;
+        //cell.statusLbl.text = @"on";
     }
 //    [[[UdpSocket alloc]init]switchDevice:nil status:YES];
 }
@@ -84,8 +88,9 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
     for (int i=0; i<self.aryData.count; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
-        cell.isON = NO;
-        cell.statusLbl.text = @"off";
+        [cell sendSwitchCmd:NO];
+        //cell.isON = NO;
+        //cell.statusLbl.text = @"off";
     }
     //[[[UdpSocket alloc]init]switchDevice:nil status:NO];
 }
@@ -108,6 +113,7 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HomeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:REUSE_ID_Cell];
+    [self.cells addObject:cell];
     cell.delegate = self;
     cell.indexLbl.text = [NSString stringWithFormat:@"%d",indexPath.row+1];
     AAdapter *ada = [self.aryData objectAtIndex:indexPath.row];
@@ -127,12 +133,13 @@ static CGFloat _s_unHeight1 = RAND_MAX;
         default:
             break;
     }
+    cell.socket = ada.socket;
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView switchAtIndexPath:(NSIndexPath *)indexPath status:(BOOL)isOn
 {
-    [[[UdpSocket alloc]init]switchDevice:nil status:isOn];
+    //[[[UdpSocket alloc]init]switchDevice:nil status:isOn];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
