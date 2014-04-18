@@ -7,9 +7,9 @@
 //
 
 #import "BaseViewController.h"
-#import "AsyncUdpSocket.h"
+#import "NetKit.h"
 
-@interface HomeViewController : BaseViewController
+@interface HomeViewController : BaseViewController<NetKitDelegate>
 
 
 

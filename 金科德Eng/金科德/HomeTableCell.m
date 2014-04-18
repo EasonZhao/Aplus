@@ -7,6 +7,7 @@
 //
 
 #import "HomeTableCell.h"
+#import "NetKit.h"
 
 @implementation HomeTableCell
 {
@@ -19,7 +20,6 @@
 @synthesize statusLbl;
 @synthesize nameLbl;
 @synthesize button;
-@synthesize socket = socket_;
 
 - (void)dealloc
 {
@@ -45,26 +45,12 @@
 
 -(void)sendSwitchCmd:(BOOL)isNo
 {
-     Byte devID = [self.indexLbl.text intValue];
-    [self.socket switchDevice:isNo devID:devID];
-    [self.button setEnabled:FALSE];
+    Byte devID = [self.indexLbl.text intValue];
+    [[NetKit instance] switchDevice:isNo devID:devID delegate:self];
+    //[self.socket switchDevice:isNo devID:devID];
+    //[self.button setEnabled:FALSE];
     //启动定时器
     timer_ = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
-}
-
--(void)setCmdRet:(BOOL)isSuccess
-{
-    if (isSuccess) {
-        return;
-    }
-    [self.button setEnabled:YES];
-    [timer_ invalidate];
-    if ([self.statusLbl.text isEqualToString:@"OFF"]) {
-        self.statusLbl.text = @"ON";
-    } else if ([self.statusLbl.text isEqualToString:@"ON"]) {
-        self.statusLbl.text = @"OFF";
-    }
-    
 }
 
 - (IBAction)switchBtn:(UIButton *)sender {
@@ -88,6 +74,19 @@
     if (delegate&&[delegate respondsToSelector:@selector(tableView:switchAtIndexPath:status:)]) {
         [delegate tableView:tableView switchAtIndexPath:indexPath status:sender.selected];
     }*/
+}
+
+- (void)switchDeviceHandler:(BOOL)success devID:(Byte)devID stat:(enum DevState)stat
+{
+    if (devID==[self.indexLbl.text intValue]) {
+        if (stat==ADA_ON) {
+            self.statusLbl.text = @"ON";
+        } else if (stat==ADA_OFF) {
+            self.statusLbl.text = @"OFF";
+        }
+        [self.button setEnabled:YES];
+        [timer_ invalidate];
+    }
 }
 
 /*

@@ -7,9 +7,9 @@
 //
 
 #import "MeTableCell.h"
-#import "UdpSocket.h"
+#import "NetKit.h"
 
-@protocol HomeCellSwitchDelegate <NSObject>
+@protocol HomeCellSwitchDelegate <NSObject,NetKitDelegate>
 
 -(void)tableView:(UITableView*)tableView switchAtIndexPath:(NSIndexPath*)indexPath status:(BOOL)isOn;
 
@@ -31,5 +31,4 @@
 @property(nonatomic,readonly)IBOutlet UILabel *nameLbl;
 @property(nonatomic,readonly)IBOutlet UIButton *button;
 @property(nonatomic,assign)id<HomeCellSwitchDelegate> delegate;
-@property(nonatomic,assign) UdpSocket *socket;
 @end

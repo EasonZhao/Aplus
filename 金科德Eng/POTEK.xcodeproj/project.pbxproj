@@ -292,6 +292,7 @@
 		8AE12FEE17DEE66900148AE9 /* TextPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE12FED17DEE66900148AE9 /* TextPicker.m */; };
 		8AE8DFCE183B422C00031A80 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AE8DFCD183B422C00031A80 /* Default.png */; };
 		8AE8F903180F9E7B00370CBB /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AE8F902180F9E7B00370CBB /* AsyncUdpSocket.m */; };
+		9B609C301900D2D900C8C2D7 /* NetKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B609C2F1900D2D900C8C2D7 /* NetKit.m */; };
 		9B85CCA718F5510F004B16DA /* IPAddress.c in Sources */ = {isa = PBXBuildFile; fileRef = 9B85CCA618F5510F004B16DA /* IPAddress.c */; };
 		9BC5BE0618C0723200353442 /* DBInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC5BE0518C0723200353442 /* DBInterface.m */; };
 		9BC5BE0818C0726800353442 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC5BE0718C0726800353442 /* libsqlite3.dylib */; };
@@ -669,6 +670,8 @@
 		8AE8DFCD183B422C00031A80 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8AE8F901180F9E7B00370CBB /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
 		8AE8F902180F9E7B00370CBB /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
+		9B609C2E1900D2D900C8C2D7 /* NetKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetKit.h; sourceTree = "<group>"; };
+		9B609C2F1900D2D900C8C2D7 /* NetKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetKit.m; sourceTree = "<group>"; };
 		9B85CCA518F550E0004B16DA /* IPAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPAddress.h; sourceTree = "<group>"; };
 		9B85CCA618F5510F004B16DA /* IPAddress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IPAddress.c; sourceTree = "<group>"; };
 		9BC5BE0418C0723200353442 /* DBInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBInterface.h; sourceTree = "<group>"; };
@@ -963,6 +966,8 @@
 				8A0CB9681810FABE004C539B /* UdpSocket.m */,
 				9B85CCA518F550E0004B16DA /* IPAddress.h */,
 				9B85CCA618F5510F004B16DA /* IPAddress.c */,
+				9B609C2E1900D2D900C8C2D7 /* NetKit.h */,
+				9B609C2F1900D2D900C8C2D7 /* NetKit.m */,
 				8A765C5A17D43D2B00592C78 /* 首页 */,
 				8ADDAA1617D9B1800033035B /* 设置 */,
 				8ADDAA1517D9B17E0033035B /* 服务 */,
@@ -1625,6 +1630,7 @@
 				8AE12FE217DEDE7500148AE9 /* TimingTableView.m in Sources */,
 				8AE12FE517DEDEB400148AE9 /* TimingTableCell.m in Sources */,
 				8A9F1F81186925D5000FC0DE /* MeTableCell.m in Sources */,
+				9B609C301900D2D900C8C2D7 /* NetKit.m in Sources */,
 				8A9F1F7C186925D5000FC0DE /* NSAttributedString.m in Sources */,
 				8A9F1F79186925D5000FC0DE /* MeAccessoryView.m in Sources */,
 				8A9F1F98186925D5000FC0DE /* SBJsonStreamParserState.m in Sources */,

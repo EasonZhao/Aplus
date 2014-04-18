@@ -133,7 +133,6 @@ static CGFloat _s_unHeight1 = RAND_MAX;
         default:
             break;
     }
-    cell.socket = ada.socket;
     return cell;
 }
 
