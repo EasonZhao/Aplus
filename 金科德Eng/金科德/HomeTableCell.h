@@ -22,6 +22,8 @@
 
 -(void)sendSwitchCmd:(BOOL)isNo;
 
+-(void)setCmdRet:(BOOL)isSuccess;
+
 @property(nonatomic)BOOL isON;
 @property(nonatomic,readonly)IBOutlet UILabel *indexLbl;
 @property(nonatomic,readonly)IBOutlet UIImageView *statusImgV;

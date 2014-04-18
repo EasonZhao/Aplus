@@ -369,8 +369,21 @@ static id _shared_ = NULL;
 
 -(void)addDevice
 {
-    Byte cmd[] = {0x41, 0x54, 0x17, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x31, 0x32,
-        0x33, 0x34, 0x35, 0x36, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0x01, 0x01, 0xa5, 0xfe };
+    Byte* macByte = (Byte*)[self.netMac bytes];
+    Byte* macByte1 = (Byte*)[mac_ bytes];
+    Byte cmd[] =
+    {
+        0x41, 0x54,
+        0x00,   //数据长度
+        //net的mac地址
+        macByte[0], macByte[1], macByte[2], macByte[3], macByte[4], macByte[5],
+        //本机的mac地址
+        macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
+        0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
+        0xa5,
+        0xfe
+    };
+    cmd[2] = sizeof(cmd)-2;
     NSData* data = [[NSData alloc] initWithBytes:cmd length:sizeof(cmd)];
     [self sendData: data];
 }

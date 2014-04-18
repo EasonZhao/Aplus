@@ -49,12 +49,30 @@
     [self.socket switchDevice:isNo devID:devID];
     [self.button setEnabled:FALSE];
     //启动定时器
-    timer_ = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
+    timer_ = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
+}
+
+-(void)setCmdRet:(BOOL)isSuccess
+{
+    if (isSuccess) {
+        return;
+    }
+    [self.button setEnabled:YES];
+    [timer_ invalidate];
+    if ([self.statusLbl.text isEqualToString:@"OFF"]) {
+        self.statusLbl.text = @"ON";
+    } else if ([self.statusLbl.text isEqualToString:@"ON"]) {
+        self.statusLbl.text = @"OFF";
+    }
+    
 }
 
 - (IBAction)switchBtn:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    [self sendSwitchCmd:sender.selected];
+    if ([self.statusLbl.text isEqualToString:@"OFF"]) {
+        [self sendSwitchCmd:YES];
+    } else if ([self.statusLbl.text isEqualToString:@"ON"]) {
+        [self sendSwitchCmd:NO];
+    }
     
     /*
     statusLbl.text = sender.selected?@"on":@"off";

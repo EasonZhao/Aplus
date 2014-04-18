@@ -137,7 +137,18 @@
         BOOL ret = [socket_ setNetIp:host];
         assert(ret);
     } else {
-        
+        Byte* pData = (Byte*)[data bytes];
+        //验证数据头
+        if (pData[0]!=0x6f || pData[1]!=0x6b) {
+            return FALSE;
+        }
+        int devID = pData[21];
+        BOOL cmdRet = pData[23]==0x01;
+        for (HomeTableCell *cell in tableView.cells) {
+            if ([cell.indexLbl.text integerValue]==devID) {
+                [cell setCmdRet:cmdRet];
+            }
+        }
     }
         return YES;
 }
