@@ -77,10 +77,7 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
         [cell sendSwitchCmd:YES];
-        //cell.isON = YES;
-        //cell.statusLbl.text = @"on";
     }
-//    [[[UdpSocket alloc]init]switchDevice:nil status:YES];
 }
 
 -(IBAction)allOff:(id)sender
@@ -89,10 +86,7 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
         [cell sendSwitchCmd:NO];
-        //cell.isON = NO;
-        //cell.statusLbl.text = @"off";
     }
-    //[[[UdpSocket alloc]init]switchDevice:nil status:NO];
 }
 
 static CGFloat _s_unHeight1 = RAND_MAX;
@@ -120,7 +114,7 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     //设置名称
     cell.nameLbl.text = ada.name;
     //设置图标
-    UIImage *image = [UIImage imageNamed:@"插座图标.png"];
+    UIImage *image = [UIImage imageNamed:ada.ico];
     [cell.button setBackgroundImage:image forState:UIControlStateNormal];
     //设置状态
     switch ([ada getState]) {

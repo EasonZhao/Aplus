@@ -16,6 +16,8 @@
 
 - (void)switchDeviceHandler:(BOOL)success devID:(Byte)devID stat:(enum DevState)stat;
 
+- (void)addDeviceHandler:(BOOL)success;
+
 @end
 
 //网关通信使用
@@ -27,6 +29,8 @@
 
 //开关量命令
 - (void)switchDevice:(BOOL)isOn devID:(Byte)devID delegate:(id)delegate;
+
+-(void)addDevice:(id)delegate;
 
 + (NetKit*)instance;
 

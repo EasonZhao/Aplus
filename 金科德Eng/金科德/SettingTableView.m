@@ -9,8 +9,9 @@
 #import "SettingTableView.h"
 #import "SettingTableCell.h"
 #import "AddDeviceViewController.h"
+#import "NetKit.h"
 
-@interface SettingTableView ()<SettingCellSwitchDelegate>
+@interface SettingTableView ()<SettingCellSwitchDelegate, NetKitDelegate>
 
 @end
 
@@ -112,10 +113,18 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 //        AddDeviceViewController *addDevice = [[AddDeviceViewController alloc]initWithNibName:@"AddDeviceViewController" bundle:nil];
 //        [[AppWindow getNavigationController] pushViewController:addDevice animated:YES];
 //        [addDevice release];
-        
+        [[NetKit instance] addDevice:self];
     }
 }
 
+-(void)addDeviceHandler:(BOOL)success
+{
+    if (success) {
+        
+    } else {
+        
+    }
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

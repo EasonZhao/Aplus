@@ -32,7 +32,8 @@ static NetKit *instance_ = nil;
     NSString *netIP_;
     
     id checkSearchCodeDelegate_;
-    id switchDeviceDelegate_;
+    //id switchDeviceDelegate_;
+    NSMutableArray *switchDeviceDelegates_;
 }
 
 - (void)dealloc
@@ -181,7 +182,10 @@ static NetKit *instance_ = nil;
         }
         int devID = pData[21];
         enum DevState stat = pData[23]==0x01 ? ADA_ON:ADA_OFF;
-        [switchDeviceDelegate_ switchDeviceHandler:YES devID:devID stat:stat];
+        for (id tmp in switchDeviceDelegates_) {
+            [tmp switchDeviceHandler:YES devID:devID stat:stat];
+        }
+        
         /*
         for (HomeTableCell *cell in tableView.cells) {
             if ([cell.indexLbl.text integerValue]==devID) {
@@ -213,7 +217,10 @@ static NetKit *instance_ = nil;
 
 - (void)switchDevice:(BOOL)isOn devID:(Byte)devID delegate:(id)delegate
 {
-    switchDeviceDelegate_ = delegate;
+    if (![switchDeviceDelegates_ containsObject:delegate])
+    {
+        [switchDeviceDelegates_ addObject:delegate];
+    }
     
     Byte* macByte = (Byte*)[netMac_ bytes];
     Byte* macByte1 = (Byte*)[mac_ bytes];
@@ -243,14 +250,21 @@ static NetKit *instance_ = nil;
 -(void)sendData:(NSData*)data socket:(AsyncUdpSocket*)sock
 {
     BOOL res = FALSE;
-    res = [sock sendData: data
-                  toHost: GROUP_IP
-                    port: GROUP_PORT
-                    withTimeout: -1
-                    tag: 1];
-
-    //开始发送
+    if (sock==groupSocket_) {
+        res = [sock sendData: data
+                      toHost: GROUP_IP
+                        port: GROUP_PORT
+                 withTimeout: -1
+                         tag: 1];
+    } else if (sock==clientSocket_) {
+        res = [sock sendData: data
+                      toHost: netIP_
+                        port: CLIENT_PORT
+                 withTimeout: -1
+                         tag: 1];
+    }
     
+    //开始发送
 	if (!res)
     {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"UDP"
@@ -261,6 +275,27 @@ static NetKit *instance_ = nil;
 		[alert show];
 		[alert release];
 	}
+}
+
+-(void)addDevice:(id)delegate
+{
+    Byte* macByte = (Byte*)[netMac_ bytes];
+    Byte* macByte1 = (Byte*)[mac_ bytes];
+    Byte cmd[] =
+    {
+        0x41, 0x54,
+        0x00,   //数据长度
+        //net的mac地址
+        macByte[0], macByte[1], macByte[2], macByte[3], macByte[4], macByte[5],
+        //本机的mac地址
+        macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
+        0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
+        0xa5,
+        0xfe
+    };
+    cmd[2] = sizeof(cmd)-2;
+    NSData* data = [[NSData alloc] initWithBytes:cmd length:sizeof(cmd)];
+    [self sendData: data socket:clientSocket_];
 }
 
 @end

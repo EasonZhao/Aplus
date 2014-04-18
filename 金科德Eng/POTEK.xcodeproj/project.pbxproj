@@ -941,9 +941,9 @@
 			children = (
 				8A765C4A17D43CB000592C78 /* AppDelegate.h */,
 				8A765C4B17D43CB000592C78 /* AppDelegate.m */,
-				9BC5BE0418C0723200353442 /* DBInterface.h */,
 				9BC5BE0918C178EA00353442 /* AAdapter.h */,
 				9BC5BE0A18C178EA00353442 /* AAdapter.m */,
+				9BC5BE0418C0723200353442 /* DBInterface.h */,
 				9BC5BE0518C0723200353442 /* DBInterface.m */,
 				8A765C5817D43CCA00592C78 /* MainWindow.xib */,
 				8A765C5B17D43D5800592C78 /* BaseViewController.h */,

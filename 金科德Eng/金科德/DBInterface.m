@@ -150,10 +150,52 @@ static DBInterface *_instance = nil;
     return arr;
 }
 
+-(BOOL)AdapterExist:(int)DevID
+{
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM Adapter WHERE ID=%d", DevID];
+    sqlite3_stmt *statement;
+    int retval = sqlite3_prepare_v2(_db, [sql UTF8String], -1, &statement, nil);
+    if(retval!=SQLITE_OK)
+        return NO;
+    if (sqlite3_step(statement)==SQLITE_ROW) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)deleteAdapter:(NSInteger)id
 {
     NSString *sql = [NSString stringWithFormat:@"DELETE FROM Adapter WHERE ID=%d", id];
     NSAssert([self execSql:sql], @"delete adapter failure!");
 }
 
+- (BOOL)insertAdapter:(int)DevID name:(NSString *)name ico:(NSString *)ico type:(int)type
+{
+    NSString *sql = [NSString stringWithFormat:
+                     @"INSERT INTO Adapter VALUES(%d, \"%@\", \"%@\", %d)",
+                     DevID,
+                     name,
+                     ico,
+                     type];
+    return [self execSql:sql];
+}
+
+- (BOOL)getAdapter:(int)DevID name:(NSString**)name ico:(NSString**)ico type:(int*)type
+{
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM Adapter WHERE ID=%d", DevID];
+    sqlite3_stmt *statement;
+    int retval = sqlite3_prepare_v2(_db, [sql UTF8String], -1, &statement, nil);
+    if(retval!=SQLITE_OK)
+        return NO;
+    if (sqlite3_step(statement)==SQLITE_ROW)
+    {
+        char *p = (char*)sqlite3_column_text(statement, 1);
+        *name = [NSString stringWithUTF8String:p];
+        p = (char*)sqlite3_column_text(statement, 2);
+        *ico = [NSString stringWithUTF8String:p];
+        *type = sqlite3_column_int(statement, 3);
+        return YES;
+    }
+    return NO;
+}
 @end

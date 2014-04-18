@@ -17,4 +17,9 @@
 
 - (void)deleteAdapter:(NSInteger)id;
 
+- (BOOL)AdapterExist:(int)DevID;
+
+- (BOOL)insertAdapter:(int)DevID name:(NSString*)name ico:(NSString*)ico type:(int)type;
+
+- (BOOL)getAdapter:(int)DevID name:(NSString**)name ico:(NSString**)ico type:(int*)type;
 @end
