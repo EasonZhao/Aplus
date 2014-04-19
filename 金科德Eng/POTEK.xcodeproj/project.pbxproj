@@ -1335,6 +1335,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "TouchCloud Information Technology (Shanghai) Co.,Ltd.";
+				TargetAttributes = {
+					8A765C3717D43CB000592C78 = {
+						DevelopmentTeam = 7JBKD25ZY3;
+					};
+				};
 			};
 			buildConfigurationList = 8A765C3317D43CB000592C78 /* Build configuration list for PBXProject "POTEK" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1710,15 +1715,15 @@
 		8A765C5617D43CB000592C78 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yang Liu (XN64T39WT2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yang Liu (XN64T39WT2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "金科德/POTEK-Prefix.pch";
 				INFOPLIST_FILE = "金科德/POTEK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = POTEK;
-				PROVISIONING_PROFILE = "C56F10F0-507C-4266-9A07-CF1EAA7D4372";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C56F10F0-507C-4266-9A07-CF1EAA7D4372";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3D6EECA8-40D1-4B15-907B-5DF062FB22CB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1726,15 +1731,15 @@
 		8A765C5717D43CB000592C78 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yang Liu (XN64T39WT2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yang Liu (XN64T39WT2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "金科德/POTEK-Prefix.pch";
 				INFOPLIST_FILE = "金科德/POTEK-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = POTEK;
-				PROVISIONING_PROFILE = "C56F10F0-507C-4266-9A07-CF1EAA7D4372";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C56F10F0-507C-4266-9A07-CF1EAA7D4372";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3D6EECA8-40D1-4B15-907B-5DF062FB22CB";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

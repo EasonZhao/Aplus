@@ -14,7 +14,7 @@
 
 - (void)checkSearchCodeHandler:(BOOL)success Devs:(NSMutableArray*)devs;
 
-- (void)switchDeviceHandler:(BOOL)success devID:(Byte)devID stat:(enum DevState)stat;
+- (void)switchDeviceHandler:(BOOL)success devID:(Byte)devID;
 
 - (void)addDeviceHandler:(BOOL)success;
 

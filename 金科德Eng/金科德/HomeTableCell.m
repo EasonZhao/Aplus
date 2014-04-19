@@ -48,7 +48,7 @@
     Byte devID = [self.indexLbl.text intValue];
     [[NetKit instance] switchDevice:isNo devID:devID delegate:self];
     //[self.socket switchDevice:isNo devID:devID];
-    //[self.button setEnabled:FALSE];
+    [self.button setEnabled:FALSE];
     //启动定时器
     timer_ = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
 }
@@ -76,16 +76,18 @@
     }*/
 }
 
-- (void)switchDeviceHandler:(BOOL)success devID:(Byte)devID stat:(enum DevState)stat
+- (void)switchDeviceHandler:(BOOL)success devID:(Byte)devID
 {
+    if (!success) {
+        return;
+    }
     if (devID==[self.indexLbl.text intValue]) {
-        if (stat==ADA_ON) {
+        if ([self.statusLbl.text isEqualToString:@"OFF"]) {
             self.statusLbl.text = @"ON";
-        } else if (stat==ADA_OFF) {
+        } else if ([self.statusLbl.text isEqualToString:@"ON"]) {
             self.statusLbl.text = @"OFF";
         }
         [self.button setEnabled:YES];
-        [timer_ invalidate];
     }
 }
 
