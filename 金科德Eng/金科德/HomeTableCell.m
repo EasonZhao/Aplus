@@ -59,21 +59,6 @@
     } else if ([self.statusLbl.text isEqualToString:@"ON"]) {
         [self sendSwitchCmd:NO];
     }
-    
-    /*
-    statusLbl.text = sender.selected?@"on":@"off";
-    self.isON = sender.selected;
-    UITableView *tableView = (UITableView*)self.superview;
-    while (tableView) {
-        if ([tableView isKindOfClass:[UITableView class]]) {
-            break;
-        }
-        tableView = (UITableView*)tableView.superview;
-    }
-    NSIndexPath *indexPath = [tableView indexPathForCell:self];
-    if (delegate&&[delegate respondsToSelector:@selector(tableView:switchAtIndexPath:status:)]) {
-        [delegate tableView:tableView switchAtIndexPath:indexPath status:sender.selected];
-    }*/
 }
 
 - (void)switchDeviceHandler:(BOOL)success devID:(Byte)devID

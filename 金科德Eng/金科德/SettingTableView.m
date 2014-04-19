@@ -10,12 +10,16 @@
 #import "SettingTableCell.h"
 #import "AddDeviceViewController.h"
 #import "NetKit.h"
+#import "SVProgressHUD.h"
 
 @interface SettingTableView ()<SettingCellSwitchDelegate, NetKitDelegate>
 
 @end
 
 @implementation SettingTableView
+{
+    NSTimer *timer_;
+}
 
 static NSString *REUSE_ID_Cell = @"SettingTableCell";
 
@@ -114,16 +118,27 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 //        [[AppWindow getNavigationController] pushViewController:addDevice animated:YES];
 //        [addDevice release];
         [[NetKit instance] addDevice:self];
+        timer_ = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
+        //提示
+        [SVProgressHUD showWithStatus:@"添加中..." maskType:SVProgressHUDMaskTypeClear];
     }
 }
 
 -(void)addDeviceHandler:(BOOL)success
 {
     if (success) {
-        
+        if (timer_ && [timer_ isValid]) {
+            [timer_ invalidate];
+        }
+        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
     } else {
         
     }
+}
+
+- (void)timeoutHandle
+{
+    [SVProgressHUD showErrorWithStatus:@"指令失败"];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -11,6 +11,7 @@
 #import "TimingViewController.h"
 #import "EditViewController.h"
 
+
 @interface SwitchDetailViewController ()
 {
     IBOutlet UIButton *switchBtn;
@@ -20,6 +21,7 @@
 
 @implementation SwitchDetailViewController
 @synthesize isOn;
+@synthesize devID;
 @synthesize mac;
 @synthesize deviceInfo;
 
@@ -50,7 +52,9 @@
 }
 
 - (IBAction)switchON:(UIButton *)sender {
-    sender.selected = !sender.selected;
+    
+
+    [[NetKit instance] switchDevice:!isOn devID:self.devID delegate:self];
 //    [[[UdpSocket alloc]init]switchDevice:nil status:sender.selected];
 }
 
@@ -82,4 +86,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)switchDeviceHandler:(BOOL)success devID:(Byte)devID
+{
+    if (!success) {
+        return;
+    }
+    if (devID==self.devID) {
+        switchBtn.selected = !switchBtn.selected;
+        self.isOn = switchBtn.selected;
+    }
+}
 @end

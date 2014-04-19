@@ -18,6 +18,8 @@
 
 - (void)addDeviceHandler:(BOOL)success;
 
+- (void)delDeviceHandler:(BOOL)success devID:(Byte)devID;
+
 @end
 
 //网关通信使用
@@ -30,7 +32,9 @@
 //开关量命令
 - (void)switchDevice:(BOOL)isOn devID:(Byte)devID delegate:(id)delegate;
 
--(void)addDevice:(id)delegate;
+- (void)addDevice:(id)delegate;
+
+- (void)delDevice:(Byte)devID delegate:(id)delegate;
 
 + (NetKit*)instance;
 

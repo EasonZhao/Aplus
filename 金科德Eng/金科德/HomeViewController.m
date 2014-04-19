@@ -51,10 +51,12 @@
     [[NetKit instance] checkSearchCode:self];
 }
 
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    tableView.aryData = nil;
+    [[NetKit instance] checkSearchCode:self];
     [self refresh];
 }
 

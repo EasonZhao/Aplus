@@ -7,11 +7,13 @@
 //
 
 #import "BaseViewController.h"
+#import "NetKit.h"
 
-@interface SwitchDetailViewController : BaseViewController
+@interface SwitchDetailViewController : BaseViewController<NetKitDelegate>
 
 @property(nonatomic,retain)NSString *mac;
 @property(nonatomic)BOOL isOn;
 @property(nonatomic,retain)NSString *deviceInfo;
+@property(nonatomic)int devID;
 
 @end

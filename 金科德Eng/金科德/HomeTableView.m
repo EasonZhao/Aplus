@@ -145,6 +145,7 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     switchDetail.deviceInfo = deviceInfo;
     switchDetail.isOn = cell.isON;
     switchDetail.hidesBottomBarWhenPushed = YES;
+    switchDetail.devID = [cell.indexLbl.text integerValue];
     
     [[AppWindow getNavigationController] pushViewController:switchDetail animated:YES];
     [switchDetail release];
