@@ -20,6 +20,7 @@
 @synthesize statusLbl;
 @synthesize nameLbl;
 @synthesize button;
+@synthesize devID;
 
 - (void)dealloc
 {
@@ -45,8 +46,7 @@
 
 -(void)sendSwitchCmd:(BOOL)isNo
 {
-    Byte devID = [self.indexLbl.text intValue];
-    [[NetKit instance] switchDevice:isNo devID:devID delegate:self];
+    [[NetKit instance] switchDevice:isNo devID:self.devID delegate:self];
     //[self.socket switchDevice:isNo devID:devID];
     [self.button setEnabled:FALSE];
     //启动定时器
@@ -66,7 +66,7 @@
     if (!success) {
         return;
     }
-    if (devID==[self.indexLbl.text intValue]) {
+    if (devID==self.devID) {
         if ([self.statusLbl.text isEqualToString:@"OFF"]) {
             self.statusLbl.text = @"ON";
         } else if ([self.statusLbl.text isEqualToString:@"ON"]) {

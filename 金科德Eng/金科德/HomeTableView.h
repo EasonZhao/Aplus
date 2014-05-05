@@ -8,8 +8,16 @@
 
 #import "MeTableView.h"
 
+@protocol HomeViewDelegate <NSObject>
+
+- (void)delDev:(Byte)DevID;
+
+@end
+
 @interface HomeTableView : MeTableView
 
 @property(nonatomic,retain)NSMutableArray *cells;
+
+- (void)setDelDelegate:(id)delegate;
 
 @end

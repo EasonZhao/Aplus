@@ -24,12 +24,13 @@ enum DevState
 
 @property(nonatomic, retain) UdpSocket *socket;
 
+@property(nonatomic)int devID;
+
 
 - (id)initWithData:(NSData*)data;
-
-- (void)setId:(int)id;
 
 - (void)deleteThisAdapter;
 
 - (int)getState;
+
 @end

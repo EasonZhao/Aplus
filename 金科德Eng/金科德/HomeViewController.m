@@ -12,7 +12,7 @@
 #import "AAdapter.h"
 #import "HomeTableCell.h"
 
-@interface HomeViewController ()
+@interface HomeViewController ()<HomeViewDelegate>
 {
     IBOutlet HomeTableView *tableView;
 }
@@ -48,7 +48,8 @@
 //    [item release];
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];
     self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(refresh) ImageName:@"刷新"];
-    [[NetKit instance] checkSearchCode:self];
+    [tableView setDelDelegate:self];
+    //[[NetKit instance] checkSearchCode:self];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -75,6 +76,21 @@
     } else {
         
     }
+}
+
+- (void)delDev:(Byte)DevID
+{
+    [[NetKit instance] delDevice:DevID delegate:self];
+}
+
+- (void)delDeviceHandler:(BOOL)success devID:(Byte)devID
+{
+    if (!success) {
+        return;
+    }
+    tableView.aryData = nil;
+    [tableView reloadData];
+    [[NetKit instance] checkSearchCode:self];
 }
 
 @end

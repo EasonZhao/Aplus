@@ -15,7 +15,7 @@
 
 @interface HomeTableView ()<HomeCellSwitchDelegate>
 {
-    
+    id delDelegate_;
 }
 
 -(IBAction)allOn:(id)sender;
@@ -111,6 +111,7 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     cell.delegate = self;
     cell.indexLbl.text = [NSString stringWithFormat:@"%d",indexPath.row+1];
     AAdapter *ada = [self.aryData objectAtIndex:indexPath.row];
+    cell.devID = ada.devID;
     //设置名称
     cell.nameLbl.text = ada.name;
     //设置图标
@@ -159,10 +160,12 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle==UITableViewCellEditingStyleDelete) {
-        AAdapter *ada = [self.aryData objectAtIndex:indexPath.row];
-        [ada deleteThisAdapter];
+        //AAdapter *ada = [self.aryData objectAtIndex:indexPath.row];
+        //[ada deleteThisAdapter];
         //[self.aryData removeObjectAtIndex:indexPath.row];
-        [self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        //[self deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        HomeTableCell *cell = (HomeTableCell*)[tableView cellForRowAtIndexPath:indexPath];
+        [delDelegate_ delDev:cell.devID];
     }
 }
 // Only override drawRect: if you perform custom drawing.
@@ -172,5 +175,9 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     // Drawing code
 }
 
+- (void)setDelDelegate:(id)delegate
+{
+    delDelegate_ = delegate;
+}
 
 @end

@@ -192,16 +192,18 @@ static NetKit *instance_ = nil;
             case 0xa5:
             {
                 [addDeviceDelegate_ addDeviceHandler:YES];
+                return YES;
                 break;
             }
             case 0xa7:
                 [delDeviceDelegate_ delDeviceHandler:YES devID:pData[21]];
+                return YES;
                 break;
             default:
                 break;
         }
         //判断协议类型
-        int devID = pData[21];
+        int devID = pData[22];
         BOOL cmdRet = pData[23]==0x01 ? YES : NO;
         for (id tmp in switchDeviceDelegates_) {
             [tmp switchDeviceHandler:cmdRet devID:devID];

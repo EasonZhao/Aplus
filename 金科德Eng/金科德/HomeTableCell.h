@@ -30,5 +30,6 @@
 @property(nonatomic,readonly)IBOutlet UILabel *statusLbl;
 @property(nonatomic,readonly)IBOutlet UILabel *nameLbl;
 @property(nonatomic,readonly)IBOutlet UIButton *button;
+@property(nonatomic)int devID;
 @property(nonatomic,assign)id<HomeCellSwitchDelegate> delegate;
 @end
