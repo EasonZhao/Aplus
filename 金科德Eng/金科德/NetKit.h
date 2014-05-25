@@ -20,6 +20,8 @@
 
 - (void)delDeviceHandler:(BOOL)success devID:(Byte)devID;
 
+- (void)allOnOffHandler;
+
 @end
 
 //网关通信使用
@@ -32,10 +34,19 @@
 //开关量命令
 - (void)switchDevice:(BOOL)isOn devID:(Byte)devID delegate:(id)delegate;
 
+- (void)countDown:(Byte)devID isOn:(BOOL)isOn hours:(int)hours
+              min:(int)min sec:(int)sec enable:(BOOL)enable delegate:(id)delegate;
+
 - (void)addDevice:(id)delegate;
 
 - (void)delDevice:(Byte)devID delegate:(id)delegate;
 
+- (void)allOn;
+
+- (void)allOff;
+
 + (NetKit*)instance;
+
+@property(nonatomic, retain)id onOffDelegate;
 
 @end

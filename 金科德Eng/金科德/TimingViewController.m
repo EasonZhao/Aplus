@@ -10,6 +10,9 @@
 #import "TimeEditViewController.h"
 
 @interface TimingViewController ()
+{
+    Byte devID_;
+}
 
 @end
 
@@ -55,8 +58,8 @@
     }
     TimeEditViewController *timeEdit = [[TimeEditViewController alloc]initWithNibName:@"TimeEditViewController" bundle:nil];
     timeEdit.isAdd = YES;
-    timeEdit.timingTableView = tableView;
-    [self.navigationController pushViewController:timeEdit animated:YES];
+    //timeEdit.timingTableView = tableView;
+    [[AppWindow getNavigationController] pushViewController:timeEdit animated:YES];
     [timeEdit release];
 }
 
@@ -73,6 +76,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setDevID:(Byte)ID
+{
+    devID_ = ID;
 }
 
 @end

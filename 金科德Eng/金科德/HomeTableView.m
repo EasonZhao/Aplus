@@ -9,11 +9,11 @@
 #import "HomeTableView.h"
 #import "HomeTableCell.h"
 #import "SwitchDetailViewController.h"
-#import "UdpSocket.h"
 #import "DBInterface.h"
 #import "AAdapter.h"
+#import "NetKit.h"
 
-@interface HomeTableView ()<HomeCellSwitchDelegate>
+@interface HomeTableView ()<HomeCellSwitchDelegate, NetKitDelegate>
 {
     id delDelegate_;
 }
@@ -65,7 +65,7 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
 - (void)registerNIBs
 {
     //NSBundle *classBundle = [NSBundle bundleForClass:[CustomCell class]];
-    
+    [NetKit instance].onOffDelegate = self;
     UINib *CellMoreNib = [UINib nibWithNibName:REUSE_ID_Cell bundle:nil];
     [self registerNib:CellMoreNib forCellReuseIdentifier:REUSE_ID_Cell];
     //[[UdpSocket shared]checkStatus];
@@ -73,20 +73,26 @@ static NSString *REUSE_ID_Cell = @"HomeTableCell";
 
 -(IBAction)allOn:(id)sender
 {
+    /*
     for (int i=0; i<self.aryData.count; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
         [cell sendSwitchCmd:YES];
     }
+     */
+    [[NetKit instance] allOn];
 }
 
 -(IBAction)allOff:(id)sender
 {
+    /*
     for (int i=0; i<self.aryData.count; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
         [cell sendSwitchCmd:NO];
     }
+     */
+    [[NetKit instance] allOff];
 }
 
 static CGFloat _s_unHeight1 = RAND_MAX;
@@ -180,4 +186,13 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     delDelegate_ = delegate;
 }
 
+
+- (void)allOnOffHandler
+{
+    for (int i=0; i<self.aryData.count; i++) {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+    HomeTableCell *cell = (HomeTableCell*)[self cellForRowAtIndexPath:indexPath];
+    [cell switchDeviceHandler:YES devID:cell.devID];
+    }
+}
 @end

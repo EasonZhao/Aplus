@@ -69,7 +69,8 @@
     TimingViewController *timing = [[TimingViewController alloc]initWithNibName:@"TimingViewController" bundle:nil];
     timing.mac = self.mac;
     timing.deviceInfo = self.deviceInfo;
-    [self.navigationController pushViewController:timing animated:YES];
+    [timing setDevID:devID];
+    [[AppWindow getNavigationController] pushViewController:timing animated:YES];
     [timing release];
 }
 

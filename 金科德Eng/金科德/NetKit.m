@@ -34,9 +34,12 @@ static NetKit *instance_ = nil;
     id checkSearchCodeDelegate_;
     id addDeviceDelegate_;
     id delDeviceDelegate_;
+    
     //id switchDeviceDelegate_;
     NSMutableArray *switchDeviceDelegates_;
 }
+
+@synthesize onOffDelegate;
 
 - (void)dealloc
 {
@@ -185,9 +188,16 @@ static NetKit *instance_ = nil;
         if (pData[0]!=0x6f || pData[1]!=0x6b) {
             return FALSE;
         }
+        //判断协议类型
+        int devID = pData[22];
         Byte type = pData[23];
         switch (type) {
             case 0xa1:
+                for (id tmp in switchDeviceDelegates_) {
+                    [tmp switchDeviceHandler:pData[23]==0x01 ? YES : NO
+                                       devID:devID];
+                }
+                return YES;
                 break;
             case 0xa5:
             {
@@ -199,15 +209,14 @@ static NetKit *instance_ = nil;
                 [delDeviceDelegate_ delDeviceHandler:YES devID:pData[21]];
                 return YES;
                 break;
+            case 0x05:
+                [self.onOffDelegate allOnOffHandler];
+                break;
             default:
                 break;
         }
-        //判断协议类型
-        int devID = pData[22];
-        BOOL cmdRet = pData[23]==0x01 ? YES : NO;
-        for (id tmp in switchDeviceDelegates_) {
-            [tmp switchDeviceHandler:cmdRet devID:devID];
-        }
+        
+        
     }
     return YES;
 }
@@ -348,5 +357,84 @@ static NetKit *instance_ = nil;
     cmd[2] = sizeof(cmd)-2;
     NSData* data = [[NSData alloc] initWithBytes:cmd length:sizeof(cmd)];
     [self sendData: data socket:clientSocket_];
+}
+
+- (void)countDown:(Byte)devID isOn:(BOOL)isOn hours:(int)hours
+              min:(int)min sec:(int)sec enable:(BOOL)enable delegate:(id)delegate
+{
+    Byte* macByte = (Byte*)[netMac_ bytes];
+    Byte* macByte1 = (Byte*)[mac_ bytes];
+    Byte tmp[6] = {0};
+    if (macByte==nil) {
+        macByte = tmp;
+    }
+    Byte cmd[] =
+    {
+        0x41, 0x54,
+        0x00,   //数据长度
+        //net的mac地址
+        macByte[0], macByte[1], macByte[2], macByte[3], macByte[4], macByte[5],
+        //本机的mac地址
+        macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
+        0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
+        devID, 0x03,
+        isOn?0x00:0x01,       //开关
+        hours, min, sec,           //时分秒
+        0xfe
+    };
+    if (enable) {
+        cmd[25] = cmd[25]|0x80;
+    } else {
+        cmd[25] = cmd[25]&0x7f;
+    }
+    cmd[2] = sizeof(cmd)-2;
+    NSData* data = [[NSData alloc] initWithBytes:cmd length:sizeof(cmd)];
+    [self sendData: data socket:clientSocket_];
+}
+
+- (void)allOn
+{
+    Byte* macByte = (Byte*)[netMac_ bytes];
+    Byte* macByte1 = (Byte*)[mac_ bytes];
+    Byte cmd[] =
+    {
+        0x41, 0x54,
+        0x00,   //数据长度
+        //net的mac地址
+        macByte[0], macByte[1], macByte[2], macByte[3], macByte[4], macByte[5],
+        //本机的mac地址
+        macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
+        0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
+        0x01,           //设备类型
+        0x00,           //设备编号(22)
+        0x05,            //控制类型 0x01代表开关量控制
+        0xff,           //开关量(24)
+        0xfe
+    };
+    cmd[2] = sizeof(cmd)-2;
+    [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
+}
+
+- (void)allOff
+{
+    Byte* macByte = (Byte*)[netMac_ bytes];
+    Byte* macByte1 = (Byte*)[mac_ bytes];
+    Byte cmd[] =
+    {
+        0x41, 0x54,
+        0x00,   //数据长度
+        //net的mac地址
+        macByte[0], macByte[1], macByte[2], macByte[3], macByte[4], macByte[5],
+        //本机的mac地址
+        macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
+        0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
+        0x01,           //设备类型
+        0x00,           //设备编号(22)
+        0x05,            //控制类型 0x01代表开关量控制
+        0xf1,           //开关量(24)
+        0xfe
+    };
+    cmd[2] = sizeof(cmd)-2;
+    [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
 }
 @end

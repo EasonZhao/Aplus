@@ -15,4 +15,6 @@
 @property(nonatomic,assign)IBOutlet TimingTableView *tableView;
 @property(nonatomic,retain)NSString *deviceInfo;
 
+- (void)setDevID:(Byte)ID;
+
 @end

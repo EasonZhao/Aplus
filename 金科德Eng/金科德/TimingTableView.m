@@ -51,8 +51,8 @@ static NSString *REUSE_ID_Cell = @"TimingTableCell";
 {
     //NSBundle *classBundle = [NSBundle bundleForClass:[CustomCell class]];
     
-    UINib *CellMoreNib = [UINib nibWithNibName:REUSE_ID_Cell bundle:nil];
-    [self registerNib:CellMoreNib forCellReuseIdentifier:REUSE_ID_Cell];
+    //UINib *CellMoreNib = [UINib nibWithNibName:REUSE_ID_Cell bundle:nil];
+    //[self registerNib:CellMoreNib forCellReuseIdentifier:REUSE_ID_Cell];
 }
 
 static CGFloat _s_unHeight1 = RAND_MAX;
