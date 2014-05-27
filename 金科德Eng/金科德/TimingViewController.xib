@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -7,6 +7,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TimingViewController">
             <connections>
+                <outlet property="countDownTimer" destination="3en-MT-yZJ" id="eNP-tA-2RX"/>
+                <outlet property="digitalTimer" destination="tZM-gA-2af" id="Tw7-tD-WwD"/>
+                <outlet property="minEdit" destination="zfl-O7-M4R" id="PfI-DH-6g9"/>
+                <outlet property="setMin200" destination="uYy-yU-e9p" id="lX2-ed-F1T"/>
+                <outlet property="setMin30" destination="OQE-zc-vbK" id="8XW-0y-m5A"/>
+                <outlet property="setMin5" destination="80O-Sz-zJk" id="wgG-oO-Hbh"/>
+                <outlet property="setMin90" destination="seq-qE-G2S" id="dRx-Id-EAh"/>
+                <outlet property="vercationTimer" destination="WeR-6M-0Sq" id="RDq-xK-tu2"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -29,7 +37,7 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="saF-Ik-uav">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="518"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="464"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="SHz-JB-ltC">
@@ -200,7 +208,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="Ioc-0J-F13"/>
+                                <action selector="changeTimingType:" destination="-1" eventType="touchUpInside" id="af8-L8-cRS"/>
                             </connections>
                         </button>
                     </subviews>
@@ -374,14 +382,14 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="Hen-NK-dwV"/>
+                                <action selector="changeTimingType:" destination="-1" eventType="touchUpInside" id="0MX-ku-pv7"/>
                             </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" id="KPc-xZ-dv4">
-                    <rect key="frame" x="9" y="330" width="303" height="176"/>
+                    <rect key="frame" x="9" y="330" width="303" height="134"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Repeat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lpm-ZN-rtd">
@@ -392,7 +400,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="80O-Sz-zJk">
-                            <rect key="frame" x="75" y="35" width="57" height="20"/>
+                            <rect key="frame" x="75" y="35" width="40" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                             <state key="normal" backgroundImage="Wi-Fi_41.png">
@@ -403,26 +411,21 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
+                                <action selector="setMinValue:" destination="-1" eventType="touchUpInside" id="gJh-jj-lqa"/>
                                 <action selector="toggle:" destination="-1" eventType="touchUpInside" id="Fe7-VK-6nc"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="2" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OQE-zc-vbK">
-                            <rect key="frame" x="132" y="35" width="57" height="20"/>
+                            <rect key="frame" x="115" y="35" width="40" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
-                            <state key="normal" backgroundImage="Wi-Fi_42.png">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <state key="highlighted">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
+                            <state key="normal" backgroundImage="Wi-Fi_42.png"/>
                             <connections>
+                                <action selector="setMinValue:" destination="-1" eventType="touchUpInside" id="HB5-j1-ect"/>
                                 <action selector="toggle:" destination="-1" eventType="touchUpInside" id="n3L-V1-rSP"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="seq-qE-G2S">
-                            <rect key="frame" x="189" y="35" width="57" height="20"/>
+                            <rect key="frame" x="154" y="35" width="40" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                             <state key="normal" backgroundImage="Wi-Fi_43.png">
@@ -433,11 +436,12 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
+                                <action selector="setMinValue:" destination="-1" eventType="touchUpInside" id="8El-UA-L0j"/>
                                 <action selector="toggle:" destination="-1" eventType="touchUpInside" id="Nva-1a-2oA"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="4" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uYy-yU-e9p">
-                            <rect key="frame" x="246" y="35" width="57" height="20"/>
+                            <rect key="frame" x="194" y="35" width="40" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="11"/>
                             <state key="normal" backgroundImage="Wi-Fi_44.png">
@@ -448,6 +452,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
+                                <action selector="setMinValue:" destination="-1" eventType="touchUpInside" id="zPl-cv-hz1"/>
                                 <action selector="toggle:" destination="-1" eventType="touchUpInside" id="RWK-76-AbF"/>
                             </connections>
                         </button>
@@ -457,12 +462,6 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" id="8fK-fF-AnA">
-                            <rect key="frame" x="20" y="73" width="78" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="min" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LC5-D9-Vgr">
                             <rect key="frame" x="118" y="77" width="38" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -471,7 +470,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="3en-MT-yZJ">
-                            <rect key="frame" x="30" y="133" width="66" height="23"/>
+                            <rect key="frame" x="21" y="111" width="66" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" image="disable.png">
@@ -483,11 +482,11 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="pw4-Kn-x7S"/>
+                                <action selector="changeTimingType:" destination="-1" eventType="touchUpInside" id="Umh-vl-ssR"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jmS-Lb-UXe">
-                            <rect key="frame" x="217" y="133" width="66" height="23"/>
+                            <rect key="frame" x="217" y="111" width="66" height="23"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" image="on.png">
@@ -502,6 +501,12 @@
                                 <action selector="toggle:" destination="-1" eventType="touchUpInside" id="ike-hx-l7H"/>
                             </connections>
                         </button>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="right" contentHorizontalAlignment="right" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="zfl-O7-M4R">
+                            <rect key="frame" x="18" y="73" width="97" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                        </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>

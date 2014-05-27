@@ -12,6 +12,7 @@
 @interface TimingViewController ()
 {
     Byte devID_;
+    
 }
 
 @end
@@ -20,6 +21,15 @@
 @synthesize tableView;
 @synthesize mac;
 @synthesize deviceInfo;
+
+@synthesize setMin5;
+@synthesize setMin30;
+@synthesize setMin90;
+@synthesize setMin200;
+@synthesize minEdit;
+@synthesize digitalTimer;
+@synthesize vercationTimer;
+@synthesize countDownTimer;
 
 - (void)dealloc
 {
@@ -40,13 +50,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    minEdit.textAlignment = UITextAlignmentRight;
+    //UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"commit" style:UIBarButtonItemStyleBordered target:self action:@selector(commit:)];
+    self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(commit:) ImageName:@"上传.png"];
     // Do any additional setup after loading the view from its nib.
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];
 //    self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(back:) ImageName:@"back"];
     NSLog(@"TimingViewController deviceInfo %@",deviceInfo);
 }
 
+- (void)commit:(id)obj
+{
+    //发送定时命令
+}
+
 - (IBAction)toggle:(UIButton *)sender {
+    
     sender.selected = !sender.selected;
 }
 
@@ -70,6 +89,40 @@
 //    UdpSocket *udp = [[UdpSocket alloc]init];
 //    [udp timingDevice:nil timing:tableView.aryData];
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (IBAction)setMinValue:(UIButton *)sender
+{
+    if (sender==setMin5) {
+        minEdit.text = @"5";
+    } else if (sender==setMin30) {
+        minEdit.text = @"30";
+    } else if (sender==setMin90) {
+        minEdit.text = @"90";
+    } else if (sender==setMin200) {
+        minEdit.text = @"200";
+    }
+}
+
+- (IBAction)changeTimingType:(UIButton *)sender
+{
+    sender.selected = !sender.selected;
+    if (!sender.selected) {
+        return;
+    }
+    if (digitalTimer==sender) {
+        vercationTimer.selected = NO;
+        countDownTimer.selected = NO;
+        return;
+    } else if (vercationTimer==sender) {
+        digitalTimer.selected = NO;
+        countDownTimer.selected = NO;
+        return;
+    } else if (countDownTimer==sender) {
+        digitalTimer.selected = NO;
+        vercationTimer.selected = NO;
+        return;
+    }
 }
 
 - (void)didReceiveMemoryWarning
