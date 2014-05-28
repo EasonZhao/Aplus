@@ -9,7 +9,7 @@
 #import "BaseViewController.h"
 #import "TimingTableView.h"
 
-@interface TimingViewController : BaseViewController
+@interface TimingViewController : BaseViewController<UITextFieldDelegate>
 {
     UIButton *setMin5;
     UIButton *setMin30;
@@ -29,6 +29,7 @@
 @property(nonatomic,retain)IBOutlet UIButton *setMin30;
 @property(nonatomic,retain)IBOutlet UIButton *setMin90;
 @property(nonatomic,retain)IBOutlet UIButton *setMin200;
+@property(nonatomic,retain)IBOutlet UIButton *countDownOnOff;
 @property(nonatomic,retain)IBOutlet UITextField *minEdit;
 
 @property(nonatomic,retain)IBOutlet UIButton *digitalTimer;

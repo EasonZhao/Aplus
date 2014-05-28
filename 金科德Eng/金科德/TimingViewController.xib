@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TimingViewController">
             <connections>
+                <outlet property="countDownOnOff" destination="jmS-Lb-UXe" id="O2x-FZ-CmS"/>
                 <outlet property="countDownTimer" destination="3en-MT-yZJ" id="eNP-tA-2RX"/>
                 <outlet property="digitalTimer" destination="tZM-gA-2af" id="Tw7-tD-WwD"/>
                 <outlet property="minEdit" destination="zfl-O7-M4R" id="PfI-DH-6g9"/>
@@ -37,7 +38,7 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view contentMode="scaleToFill" id="saF-Ik-uav">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="464"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="484"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="SHz-JB-ltC">

@@ -8,6 +8,7 @@
 
 #import "TimingViewController.h"
 #import "TimeEditViewController.h"
+#import "NetKit.h"
 
 @interface TimingViewController ()
 {
@@ -30,6 +31,7 @@
 @synthesize digitalTimer;
 @synthesize vercationTimer;
 @synthesize countDownTimer;
+@synthesize countDownOnOff;
 
 - (void)dealloc
 {
@@ -43,6 +45,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        minEdit.delegate = self;
     }
     return self;
 }
@@ -50,7 +53,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    minEdit.delegate = self;
+    minEdit.returnKeyType = UIReturnKeyNext;
     minEdit.textAlignment = UITextAlignmentRight;
+    
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidenKeyboard)];
+    gesture.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:gesture];
     //UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"commit" style:UIBarButtonItemStyleBordered target:self action:@selector(commit:)];
     self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(commit:) ImageName:@"上传.png"];
     // Do any additional setup after loading the view from its nib.
@@ -59,9 +68,25 @@
     NSLog(@"TimingViewController deviceInfo %@",deviceInfo);
 }
 
-- (void)commit:(id)obj
+- (void)commit:(UIButton *)sender
 {
     //发送定时命令
+    if (digitalTimer.selected) {
+        
+    } else if (vercationTimer.selected) {
+        
+    } else if (countDownTimer.selected) {
+        int min = [minEdit.text integerValue];
+        int hour = min / 60;
+        min = min % 60;
+        [[NetKit instance] countDown:devID_
+                                isOn:countDownOnOff.selected
+                               hours:hour
+                                 min:min
+                                 sec:0
+                              enable:YES
+                            delegate:self];
+    }
 }
 
 - (IBAction)toggle:(UIButton *)sender {
@@ -134,6 +159,60 @@
 - (void)setDevID:(Byte)ID
 {
     devID_ = ID;
+}
+
+//UITextField的协议方法，当开始编辑时监听
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    NSTimeInterval animationDuration=0.30f;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    float width = self.view.frame.size.width;
+    float height = self.view.frame.size.height;
+    //上移30个单位，按实际情况设置
+    CGRect rect=CGRectMake(0.0f,-210,width,height);
+    self.view.frame=rect;
+    [UIView commitAnimations];
+    return YES;
+}
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (range.location>=3) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
+//恢复原始视图位置
+-(void)resumeView
+{
+    
+    NSTimeInterval animationDuration=0.30f;
+    [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    float width = self.view.frame.size.width;
+    float height = self.view.frame.size.height;
+    //如果当前View是父视图，则Y为20个像素高度，如果当前View为其他View的子视图，则动态调节Y的高度
+    float Y = 20.0f;
+    CGRect rect=CGRectMake(0.0f,Y,width,height);
+    self.view.frame=rect;
+    [UIView commitAnimations];
+}
+
+-(void)hidenKeyboard
+{
+    [minEdit resignFirstResponder];
+    [self resumeView];
+}
+
+//点击键盘上的Return按钮响应的方法
+-(IBAction)nextOnKeyboard:(UITextField *)sender
+{
+    if (sender == self.minEdit) {
+        //[self.passwordText becomeFirstResponder];
+    }
 }
 
 @end
