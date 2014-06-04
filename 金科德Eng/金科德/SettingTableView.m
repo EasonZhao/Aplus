@@ -126,13 +126,13 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 
 -(void)addDeviceHandler:(BOOL)success
 {
+    if (timer_ && [timer_ isValid]) {
+        [timer_ invalidate];
+    }
     if (success) {
-        if (timer_ && [timer_ isValid]) {
-            [timer_ invalidate];
-        }
         [SVProgressHUD showSuccessWithStatus:@"添加成功"];
     } else {
-        
+        [SVProgressHUD showErrorWithStatus:@"指令失败"];
     }
 }
 

@@ -34,6 +34,8 @@ static NetKit *instance_ = nil;
     id checkSearchCodeDelegate_;
     id addDeviceDelegate_;
     id delDeviceDelegate_;
+    id countdownDelegate_;
+    id settimerDelegate_;
     
     //id switchDeviceDelegate_;
     NSMutableArray *switchDeviceDelegates_;
@@ -212,6 +214,12 @@ static NetKit *instance_ = nil;
             case 0x05:
                 [self.onOffDelegate allOnOffHandler];
                 break;
+            case 0x03:
+                [countdownDelegate_ countdownHandler:YES devID:devID];
+                break;
+            case 0x02:
+                [settimerDelegate_ setTimerHandler:YES devID:devID];
+                break;
             default:
                 break;
         }
@@ -350,7 +358,7 @@ static NetKit *instance_ = nil;
         //本机的mac地址
         macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
         0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
-        devID, 0x01,
+        0x01, devID,
         0xa7,
         0xfe
     };
@@ -362,6 +370,7 @@ static NetKit *instance_ = nil;
 - (void)countDown:(Byte)devID isOn:(BOOL)isOn hours:(int)hours
               min:(int)min sec:(int)sec enable:(BOOL)enable delegate:(id)delegate
 {
+    countdownDelegate_ = delegate;
     Byte* macByte = (Byte*)[netMac_ bytes];
     Byte* macByte1 = (Byte*)[mac_ bytes];
     Byte tmp[6] = {0};
@@ -377,7 +386,8 @@ static NetKit *instance_ = nil;
         //本机的mac地址
         macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
         0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
-        devID, 0x03,
+        0x01, devID,
+        0x03,
         isOn?0x00:0x01,       //开关
         hours, min, sec,           //时分秒
         0xfe
@@ -436,5 +446,46 @@ static NetKit *instance_ = nil;
     };
     cmd[2] = sizeof(cmd)-2;
     [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
+}
+
+- (void)setTimer:(Byte)devID weekdays:(NSMutableArray*)weekdays delegate:(id)delegate
+{
+    settimerDelegate_ = delegate;
+    Byte* macByte = (Byte*)[netMac_ bytes];
+    Byte* macByte1 = (Byte*)[mac_ bytes];
+    Byte cmd[] =
+    {
+        0x41, 0x54,
+        0x00,   //数据长度
+        //net的mac地址
+        macByte[0], macByte[1], macByte[2], macByte[3], macByte[4], macByte[5],
+        //本机的mac地址
+        macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
+        0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
+        0x01,           //设备类型
+        devID,           //设备编号(22)
+        0x02,            //控制类型 0x02代表定时
+    };
+    //计算长度
+    cmd[3] = sizeof(cmd)-2 +1 + [weekdays count] *6;
+    NSMutableData *data = [[NSMutableData alloc] initWithBytes:cmd length:sizeof(cmd)];
+    for (NSValue *value in weekdays) {
+        WeekDaySet set;
+        [value getValue:&set];
+        char tmp[6] = {0};
+        tmp[0] = set.weekday;
+        tmp[0] = tmp[0]|0x80;
+        tmp[1] = set.onHour;
+        tmp[2] = set.onMin;
+        tmp[3] = set.weekday;
+        tmp[3] = tmp[3]|0x80;
+        tmp[4] = set.offHour;
+        tmp[5] = set.offMin;
+        [data appendBytes:tmp length:sizeof(tmp)];
+    }
+    Byte f = 0xfe;
+    [data appendBytes:&f length:1];
+    [data bytes];
+    [self sendData:[NSData dataWithBytes:[data bytes] length:[data length]] socket:clientSocket_];
 }
 @end

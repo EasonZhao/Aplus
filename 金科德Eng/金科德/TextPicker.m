@@ -75,7 +75,17 @@
 
 -(void)awakeFromNib
 {
+    NSDate *now = [NSDate date];
+    NSLog(@"now date is: %@", now);
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
+    NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit |
+    NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+    
+    NSDateComponents *comps  = [calendar components:unitFlags fromDate:now];
+    
+    [picker selectRow:[comps hour] inComponent:0 animated:NO];
+    [picker selectRow:[comps minute] inComponent:1 animated:NO];
 }
 
 -(void)reloadData_

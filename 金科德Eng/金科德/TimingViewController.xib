@@ -15,6 +15,8 @@
                 <outlet property="setMin30" destination="OQE-zc-vbK" id="8XW-0y-m5A"/>
                 <outlet property="setMin5" destination="80O-Sz-zJk" id="wgG-oO-Hbh"/>
                 <outlet property="setMin90" destination="seq-qE-G2S" id="dRx-Id-EAh"/>
+                <outlet property="verOffEdit" destination="ehm-ze-qAn" id="v47-li-nTv"/>
+                <outlet property="verOnEdit" destination="xqx-18-9HA" id="GwN-vf-6oU"/>
                 <outlet property="vercationTimer" destination="WeR-6M-0Sq" id="RDq-xK-tu2"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -240,7 +242,7 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="xqx-18-9HA" customClass="TextPicker">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ver_picker" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="xqx-18-9HA" customClass="TextPicker">
                             <rect key="frame" x="75" y="34" width="97" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -265,7 +267,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="SwB-em-7EV"/>
+                                <action selector="setVerTimerWeekArg:" destination="-1" eventType="touchUpInside" id="b5M-Ej-Ufz"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="2" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sKd-Mf-OjG">
@@ -281,7 +283,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="gsb-KI-wMG"/>
+                                <action selector="setVerTimerWeekArg:" destination="-1" eventType="touchUpInside" id="JyL-0Y-24H"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mnj-bO-Uxa">
@@ -297,7 +299,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="gbu-3Q-nrO"/>
+                                <action selector="setVerTimerWeekArg:" destination="-1" eventType="touchUpInside" id="se5-Zj-s2x"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="4" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7Fc-dM-9tq">
@@ -313,7 +315,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="s5X-BW-bK1"/>
+                                <action selector="setVerTimerWeekArg:" destination="-1" eventType="touchUpInside" id="4e8-ze-fq7"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="5" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="g9U-CA-BfG">
@@ -329,7 +331,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="rdI-gG-Lur"/>
+                                <action selector="setVerTimerWeekArg:" destination="-1" eventType="touchUpInside" id="GHO-p1-JNZ"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="6" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tEd-ut-a6Z">
@@ -345,7 +347,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="GvI-k1-Tyc"/>
+                                <action selector="setVerTimerWeekArg:" destination="-1" eventType="touchUpInside" id="44M-tN-Led"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="7" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="suW-EO-nnY">
@@ -361,7 +363,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="xiB-jv-vIg"/>
+                                <action selector="setVerTimerWeekArg:" destination="-1" eventType="touchUpInside" id="ivg-UY-OXw"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vercation Timer List" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gjO-kT-Hq9">

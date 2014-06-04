@@ -19,6 +19,9 @@
     UIButton *digitalTimer;
     UIButton *vercationTimer;
     UIButton *countDownTimer;
+    
+    UITextField *verOnEdit;
+    UITextField *verOffEdit;
 }
 
 @property(nonatomic,retain)NSString *mac;
@@ -36,7 +39,8 @@
 @property(nonatomic,retain)IBOutlet UIButton *vercationTimer;
 @property(nonatomic,retain)IBOutlet UIButton *countDownTimer;
 
-
+@property(nonatomic,retain)IBOutlet UITextField *verOnEdit;
+@property(nonatomic,retain)IBOutlet UITextField *verOffEdit;
 - (void)setDevID:(Byte)ID;
 
 

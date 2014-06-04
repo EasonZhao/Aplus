@@ -8,12 +8,14 @@
 
 #import "TimingViewController.h"
 #import "TimeEditViewController.h"
+#import "SVProgressHUD.h"
 #import "NetKit.h"
 
-@interface TimingViewController ()
+@interface TimingViewController ()<NetKitDelegate>
 {
     Byte devID_;
-    
+    NSTimer *timer_;
+    BOOL verWeek_[7];
 }
 
 @end
@@ -33,6 +35,9 @@
 @synthesize countDownTimer;
 @synthesize countDownOnOff;
 
+@synthesize verOnEdit;
+@synthesize verOffEdit;
+
 - (void)dealloc
 {
     [deviceInfo release];
@@ -46,6 +51,9 @@
     if (self) {
         // Custom initialization
         minEdit.delegate = self;
+        for (int i=0; i<7; i++) {
+            verWeek_[i] = YES;
+        }
     }
     return self;
 }
@@ -70,11 +78,48 @@
 
 - (void)commit:(UIButton *)sender
 {
+    BOOL sended = NO;
     //发送定时命令
     if (digitalTimer.selected) {
         
     } else if (vercationTimer.selected) {
-        
+        if ([verOnEdit.text length]==0 ||
+            [verOffEdit.text length]==0) {
+            return;
+        }
+        NSArray *arr = [verOnEdit.text componentsSeparatedByString:@":"];
+        int onHour = [[arr objectAtIndex:0] intValue];
+        int onMin = [[arr objectAtIndex:1] intValue];
+        arr = [verOffEdit.text componentsSeparatedByString:@":"];
+        int offHour = [[arr objectAtIndex:0] intValue];
+        int offMin = [[arr objectAtIndex:1] intValue];
+        //提示
+        if ((onHour*60+onMin)>=(offHour*60+offMin)) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: @"Invalid parameter"
+                                                           delegate: self
+                                                  cancelButtonTitle: @"取消"
+                                                  otherButtonTitles: nil];
+            [alert show];
+            [alert release];
+            return;
+        }
+        NSMutableArray *weeks = [NSMutableArray array];
+        for (int i=0; i<7; i++) {
+            if (verWeek_[i]) {
+                WeekDaySet set = {0};
+                set.weekday = i+1;
+                set.onHour = onHour;
+                set.onMin = onMin;
+                set.offHour = offHour;
+                set.offMin = offMin;
+                NSValue *value = nil;
+                value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+                [weeks addObject:value];
+            }
+        }
+        [[NetKit instance] setTimer:devID_ weekdays:weeks delegate:self];
+        sended = YES;
     } else if (countDownTimer.selected) {
         int min = [minEdit.text integerValue];
         int hour = min / 60;
@@ -86,7 +131,17 @@
                                  sec:0
                               enable:YES
                             delegate:self];
+        sended = YES;
     }
+    if (sended) {
+        timer_ = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
+        [SVProgressHUD showWithStatus:@"请稍后" maskType:SVProgressHUDMaskTypeClear];
+    }
+}
+
+- (void)timeoutHandle
+{
+    [SVProgressHUD showErrorWithStatus:@"指令失败"];
 }
 
 - (IBAction)toggle:(UIButton *)sender {
@@ -94,6 +149,25 @@
     sender.selected = !sender.selected;
 }
 
+- (IBAction)setVerTimerWeekArg:(UIButton*)sender
+{
+    sender.selected = !sender.selected;
+    if ([[sender.titleLabel text] isEqualToString:@"mon"]) {
+        verWeek_[0] = sender.selected;
+    } else if ([[sender.titleLabel text] isEqualToString:@"tue"]) {
+        verWeek_[1] = sender.selected;
+    } else if ([[sender.titleLabel text] isEqualToString:@"web"]) {
+        verWeek_[2] = sender.selected;
+    } else if ([[sender.titleLabel text] isEqualToString:@"thu"]) {
+        verWeek_[3] = sender.selected;
+    } else if ([[sender.titleLabel text] isEqualToString:@"fir"]) {
+        verWeek_[4] = sender.selected;
+    } else if ([[sender.titleLabel text] isEqualToString:@"sat"]) {
+        verWeek_[5] = sender.selected;
+    } else if ([[sender.titleLabel text] isEqualToString:@"sun"]) {
+        verWeek_[6] = sender.selected;
+    }
+}
 
 - (IBAction)add:(UIButton *)sender {
     if (tableView.aryData.count>=10) {
@@ -188,7 +262,6 @@
 //恢复原始视图位置
 -(void)resumeView
 {
-    
     NSTimeInterval animationDuration=0.30f;
     [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
     [UIView setAnimationDuration:animationDuration];
@@ -215,4 +288,29 @@
     }
 }
 
+- (void)countdownHandler:(BOOL)success devID:(Byte)devID
+{
+    if (timer_ && [timer_ isValid]) {
+        [timer_ invalidate];
+    }
+    if (success) {
+        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [SVProgressHUD showErrorWithStatus:@"指令失败"];
+    }
+}
+
+- (void)setTimerHandler:(BOOL)success devID:(Byte)devID
+{
+    if (timer_ && [timer_ isValid]) {
+        [timer_ invalidate];
+    }
+    if (success) {
+        [SVProgressHUD showSuccessWithStatus:@"添加成功"];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } else {
+        [SVProgressHUD showErrorWithStatus:@"指令失败"];
+    }
+}
 @end

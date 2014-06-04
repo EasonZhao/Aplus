@@ -10,6 +10,15 @@
 #import "AAdapter.h"
 #import "AsyncUdpSocket.h"
 
+typedef struct
+{
+    int weekday;
+    int onHour;
+    int onMin;
+    int offHour;
+    int offMin;
+}WeekDaySet;
+
 @protocol NetKitDelegate <NSObject>
 
 - (void)checkSearchCodeHandler:(BOOL)success Devs:(NSMutableArray*)devs;
@@ -21,6 +30,10 @@
 - (void)delDeviceHandler:(BOOL)success devID:(Byte)devID;
 
 - (void)allOnOffHandler;
+
+- (void)countdownHandler:(BOOL)success devID:(Byte)devID;
+
+- (void)setTimerHandler:(BOOL)success devID:(Byte)devID;
 
 @end
 
@@ -36,6 +49,8 @@
 
 - (void)countDown:(Byte)devID isOn:(BOOL)isOn hours:(int)hours
               min:(int)min sec:(int)sec enable:(BOOL)enable delegate:(id)delegate;
+
+- (void)setTimer:(Byte)devID weekdays:(NSMutableArray*)weekdays delegate:(id)delegate;
 
 - (void)addDevice:(id)delegate;
 
