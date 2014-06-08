@@ -15,7 +15,10 @@
 {
     Byte devID_;
     NSTimer *timer_;
-    BOOL verWeek_[7];
+    
+    Byte weekDays1_;
+    Byte weekDays2_;
+    Byte weekDays3_;
 }
 
 @end
@@ -51,9 +54,9 @@
     if (self) {
         // Custom initialization
         minEdit.delegate = self;
-        for (int i=0; i<7; i++) {
-            verWeek_[i] = YES;
-        }
+        weekDays1_ = 0x7f;
+        weekDays2_ = 0x7f;
+        weekDays3_ = 0x7f;
     }
     return self;
 }
@@ -105,19 +108,22 @@
             return;
         }
         NSMutableArray *weeks = [NSMutableArray array];
-        for (int i=0; i<7; i++) {
-            if (verWeek_[i]) {
-                WeekDaySet set = {0};
-                set.weekday = i+1;
-                set.onHour = onHour;
-                set.onMin = onMin;
-                set.offHour = offHour;
-                set.offMin = offMin;
-                NSValue *value = nil;
-                value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
-                [weeks addObject:value];
-            }
+        for (int i=0; i<2; i++) {
+            WeekDaySet set = {0};
+            NSValue *value = nil;
+            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+            [weeks addObject:value];
         }
+        WeekDaySet set = {0};
+        set.weekday = weekDays3_;
+        set.onHour = onHour;
+        set.onMin = onMin;
+        set.offHour = offHour;
+        set.offMin = offMin;
+        set.isON = true;
+        NSValue *value = nil;
+        value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+        [weeks addObject:value];
         [[NetKit instance] setTimer:devID_ weekdays:weeks delegate:self];
         sended = YES;
     } else if (countDownTimer.selected) {
@@ -153,19 +159,47 @@
 {
     sender.selected = !sender.selected;
     if ([[sender.titleLabel text] isEqualToString:@"mon"]) {
-        verWeek_[0] = sender.selected;
+        if (sender.selected) {
+            weekDays3_ = weekDays3_ | 0x01;
+        } else {
+            weekDays3_ = weekDays3_ & 0xfe;
+        }
     } else if ([[sender.titleLabel text] isEqualToString:@"tue"]) {
-        verWeek_[1] = sender.selected;
+        if (sender.selected) {
+            weekDays3_ = weekDays3_ | 0x02;
+        } else {
+            weekDays3_ = weekDays3_ & 0xfd;
+        }
     } else if ([[sender.titleLabel text] isEqualToString:@"web"]) {
-        verWeek_[2] = sender.selected;
+        if (sender.selected) {
+            weekDays3_ = weekDays3_ | 0x04;
+        } else {
+            weekDays3_ = weekDays3_ & 0xfb;
+        }
     } else if ([[sender.titleLabel text] isEqualToString:@"thu"]) {
-        verWeek_[3] = sender.selected;
+        if (sender.selected) {
+            weekDays3_ = weekDays3_ | 0x08;
+        } else {
+            weekDays3_ = weekDays3_ & 0xf7;
+        }
     } else if ([[sender.titleLabel text] isEqualToString:@"fir"]) {
-        verWeek_[4] = sender.selected;
+        if (sender.selected) {
+            weekDays3_ = weekDays3_ | 0x10;
+        } else {
+            weekDays3_ = weekDays3_ & 0xef;
+        }
     } else if ([[sender.titleLabel text] isEqualToString:@"sat"]) {
-        verWeek_[5] = sender.selected;
+        if (sender.selected) {
+            weekDays3_ = weekDays3_ | 0x20;
+        } else {
+            weekDays3_ = weekDays3_ & 0xdf;
+        }
     } else if ([[sender.titleLabel text] isEqualToString:@"sun"]) {
-        verWeek_[6] = sender.selected;
+        if (sender.selected) {
+            weekDays3_ = weekDays3_ | 0x40;
+        } else {
+            weekDays3_ = weekDays3_ & 0xbf;
+        }
     }
 }
 

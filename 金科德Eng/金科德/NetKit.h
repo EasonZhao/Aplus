@@ -12,11 +12,12 @@
 
 typedef struct
 {
-    int weekday;
+    Byte weekday;
     int onHour;
     int onMin;
     int offHour;
     int offMin;
+    bool isON;
 }WeekDaySet;
 
 @protocol NetKitDelegate <NSObject>

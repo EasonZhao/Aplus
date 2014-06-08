@@ -16,7 +16,8 @@
 
 static NetKit *instance_ = nil;
 
-#define GROUP_IP @"255.255.255.255"
+//#define GROUP_IP @"255.255.255.255"
+#define GROUP_IP @"58.39.72.59"
 #define GROUP_PORT  18890
 #define CLIENT_PORT 18891
 //long GROUP_ID=1;
@@ -467,18 +468,26 @@ static NetKit *instance_ = nil;
         0x02,            //控制类型 0x02代表定时
     };
     //计算长度
-    cmd[3] = sizeof(cmd)-2 +1 + [weekdays count] *6;
+    cmd[2] = sizeof(cmd)-2 +1 + [weekdays count] *6;
     NSMutableData *data = [[NSMutableData alloc] initWithBytes:cmd length:sizeof(cmd)];
     for (NSValue *value in weekdays) {
         WeekDaySet set;
         [value getValue:&set];
         char tmp[6] = {0};
         tmp[0] = set.weekday;
-        tmp[0] = tmp[0]|0x80;
+        if (set.isON) {
+            tmp[0] = tmp[0] | 0x80;
+        } else {
+            tmp[0] = tmp[0] & 0x7f;
+        }
         tmp[1] = set.onHour;
         tmp[2] = set.onMin;
         tmp[3] = set.weekday;
-        tmp[3] = tmp[3]|0x80;
+        if (set.isON) {
+            tmp[3] = tmp[3] | 0x80;
+        } else {
+            tmp[3] = tmp[3] & 0x7f;
+        }
         tmp[4] = set.offHour;
         tmp[5] = set.offMin;
         [data appendBytes:tmp length:sizeof(tmp)];
