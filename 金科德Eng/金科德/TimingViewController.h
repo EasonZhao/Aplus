@@ -22,6 +22,18 @@
     
     UITextField *verOnEdit;
     UITextField *verOffEdit;
+    UITextField *digGroup;
+    
+    UIButton *digWeekBtn1;
+    UIButton *digWeekBtn2;
+    UIButton *digWeekBtn3;
+    UIButton *digWeekBtn4;
+    UIButton *digWeekBtn5;
+    UIButton *digWeekBtn6;
+    UIButton *digWeekBtn7;
+    
+    UITextField *digOnEdit;
+    UITextField *digOffEdit;
 }
 
 @property(nonatomic,retain)NSString *mac;
@@ -41,7 +53,19 @@
 
 @property(nonatomic,retain)IBOutlet UITextField *verOnEdit;
 @property(nonatomic,retain)IBOutlet UITextField *verOffEdit;
+
+@property(nonatomic,retain)IBOutlet UITextField *digGroup;
 - (void)setDevID:(Byte)ID;
 
+@property(nonatomic,retain)IBOutlet UIButton *digWeekBtn1;
+@property(nonatomic,retain)IBOutlet UIButton *digWeekBtn2;
+@property(nonatomic,retain)IBOutlet UIButton *digWeekBtn3;
+@property(nonatomic,retain)IBOutlet UIButton *digWeekBtn4;
+@property(nonatomic,retain)IBOutlet UIButton *digWeekBtn5;
+@property(nonatomic,retain)IBOutlet UIButton *digWeekBtn6;
+@property(nonatomic,retain)IBOutlet UIButton *digWeekBtn7;
+
+@property(nonatomic,retain)IBOutlet UITextField *digOnEdit;
+@property(nonatomic,retain)IBOutlet UITextField *digOffEdit;
 
 @end

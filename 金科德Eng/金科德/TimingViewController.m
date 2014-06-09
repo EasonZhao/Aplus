@@ -19,6 +19,8 @@
     Byte weekDays1_;
     Byte weekDays2_;
     Byte weekDays3_;
+    BOOL digEnable1_;
+    BOOL digEnable2_;
 }
 
 @end
@@ -41,6 +43,19 @@
 @synthesize verOnEdit;
 @synthesize verOffEdit;
 
+@synthesize digGroup;
+
+@synthesize digWeekBtn1;
+@synthesize digWeekBtn2;
+@synthesize digWeekBtn3;
+@synthesize digWeekBtn4;
+@synthesize digWeekBtn5;
+@synthesize digWeekBtn6;
+@synthesize digWeekBtn7;
+
+@synthesize digOnEdit;
+@synthesize digOffEdit;
+
 - (void)dealloc
 {
     [deviceInfo release];
@@ -57,6 +72,8 @@
         weekDays1_ = 0x7f;
         weekDays2_ = 0x7f;
         weekDays3_ = 0x7f;
+        digEnable1_ = NO;
+        digEnable2_ = NO;
     }
     return self;
 }
@@ -83,8 +100,70 @@
 {
     BOOL sended = NO;
     //发送定时命令
-    if (digitalTimer.selected) {
+    if (digEnable1_ || digEnable2_) {
+        if ([digOnEdit.text length]==0 ||
+            [digOffEdit.text length]==0) {
+            return;
+        }
+        NSArray *arr = [digOnEdit.text componentsSeparatedByString:@":"];
+        int onHour = [[arr objectAtIndex:0] intValue];
+        int onMin = [[arr objectAtIndex:1] intValue];
+        arr = [digOffEdit.text componentsSeparatedByString:@":"];
+        int offHour = [[arr objectAtIndex:0] intValue];
+        int offMin = [[arr objectAtIndex:1] intValue];
+        //提示
+        if ((onHour*60+onMin)>=(offHour*60+offMin)) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: @"Invalid parameter"
+                                                           delegate: self
+                                                  cancelButtonTitle: @"取消"
+                                                  otherButtonTitles: nil];
+            [alert show];
+            [alert release];
+            return;
+        }
+        NSMutableArray *weeks = [NSMutableArray array];
+        if (digEnable1_) {
+            WeekDaySet set = {0};
+            set.weekday = weekDays1_;
+            set.onHour = onHour;
+            set.onMin = onMin;
+            set.offHour = offHour;
+            set.offMin = offMin;
+            set.isON = true;
+            NSValue *value = nil;
+            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+            [weeks addObject:value];
+        } else {
+            WeekDaySet set = {0};
+            NSValue *value = nil;
+            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+            [weeks addObject:value];
+        }
         
+        if (digEnable2_) {
+            WeekDaySet set = {0};
+            set.weekday = weekDays2_;
+            set.onHour = onHour;
+            set.onMin = onMin;
+            set.offHour = offHour;
+            set.offMin = offMin;
+            set.isON = true;
+            NSValue *value = nil;
+            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+            [weeks addObject:value];
+        } else {
+            WeekDaySet set = {0};
+            NSValue *value = nil;
+            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+            [weeks addObject:value];
+        }
+        WeekDaySet set = {0};
+        NSValue *value = nil;
+        value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+        [weeks addObject:value];
+        [[NetKit instance] setTimer:devID_ weekdays:weeks delegate:self];
+        sended = YES;
     } else if (vercationTimer.selected) {
         if ([verOnEdit.text length]==0 ||
             [verOffEdit.text length]==0) {
@@ -150,9 +229,51 @@
     [SVProgressHUD showErrorWithStatus:@"指令失败"];
 }
 
+- (IBAction)textFieldChange:(UITextField *)textField
+{
+    if ([textField.text isEqualToString:@"1"]) {
+        digWeekBtn1.selected = weekDays1_ & 0x01 ? YES : NO;
+        digWeekBtn2.selected = weekDays1_ & 0x02 ? YES : NO;
+        digWeekBtn3.selected = weekDays1_ & 0x04 ? YES : NO;
+        digWeekBtn4.selected = weekDays1_ & 0x08 ? YES : NO;
+        digWeekBtn5.selected = weekDays1_ & 0x10 ? YES : NO;
+        digWeekBtn6.selected = weekDays1_ & 0x20 ? YES : NO;
+        digWeekBtn7.selected = weekDays1_ & 0x40 ? YES : NO;
+        
+        digitalTimer.selected = digEnable1_;
+    } else if ([textField.text isEqualToString:@"2"]) {
+        BOOL tmp = NO;
+        tmp = weekDays2_ & 0x01 ? YES : NO;
+        digWeekBtn1.selected = tmp;
+        tmp = weekDays2_ & 0x02 ? YES : NO;
+        digWeekBtn2.selected = tmp;
+        tmp = weekDays2_ & 0x04 ? YES : NO;
+        digWeekBtn3.selected = tmp;
+        tmp = weekDays2_ & 0x08 ? YES : NO;
+        digWeekBtn4.selected = tmp;
+        tmp = weekDays2_ & 0x10 ? YES : NO;
+        digWeekBtn5.selected = tmp;
+        tmp = weekDays2_ & 0x20 ? YES : NO;
+        digWeekBtn6.selected = tmp;
+        tmp = weekDays2_ & 0x40 ? YES : NO;
+        digWeekBtn7.selected = tmp;
+        
+        digitalTimer.selected = digEnable2_;
+    }
+}
+
 - (IBAction)toggle:(UIButton *)sender {
     
     sender.selected = !sender.selected;
+}
+
+- (IBAction)setDigEnable:(UIButton*)sender
+{
+    if ([digGroup.text isEqualToString:@"1"]) {
+        digEnable1_ = sender.selected;
+    } else {
+        digEnable2_ = sender.selected;
+    }
 }
 
 - (IBAction)setVerTimerWeekArg:(UIButton*)sender
@@ -200,6 +321,65 @@
         } else {
             weekDays3_ = weekDays3_ & 0xbf;
         }
+    }
+}
+
+- (IBAction)setDigTimerWeekArg:(UIButton*)sender
+{
+    sender.selected = !sender.selected;
+    Byte tmp = 0;
+    if ([digGroup.text isEqualToString:@"1"]) {
+        tmp = weekDays1_;
+    } else {
+        tmp = weekDays2_;
+    }
+    if ([[sender.titleLabel text] isEqualToString:@"mon"]) {
+        if (sender.selected) {
+            tmp = tmp | 0x01;
+        } else {
+            tmp = tmp & 0xfe;
+        }
+    } else if ([[sender.titleLabel text] isEqualToString:@"tue"]) {
+        if (sender.selected) {
+            tmp = tmp | 0x02;
+        } else {
+            tmp = tmp & 0xfd;
+        }
+    } else if ([[sender.titleLabel text] isEqualToString:@"web"]) {
+        if (sender.selected) {
+            tmp = tmp | 0x04;
+        } else {
+            tmp = tmp & 0xfb;
+        }
+    } else if ([[sender.titleLabel text] isEqualToString:@"thu"]) {
+        if (sender.selected) {
+            tmp = tmp | 0x08;
+        } else {
+            tmp = tmp & 0xf7;
+        }
+    } else if ([[sender.titleLabel text] isEqualToString:@"fir"]) {
+        if (sender.selected) {
+            tmp = tmp | 0x10;
+        } else {
+            tmp = tmp & 0xef;
+        }
+    } else if ([[sender.titleLabel text] isEqualToString:@"sat"]) {
+        if (sender.selected) {
+            tmp = tmp | 0x20;
+        } else {
+            tmp = tmp & 0xdf;
+        }
+    } else if ([[sender.titleLabel text] isEqualToString:@"sun"]) {
+        if (sender.selected) {
+            tmp = tmp | 0x40;
+        } else {
+            tmp = tmp & 0xbf;
+        }
+    }
+    if ([digGroup.text isEqualToString:@"1"]) {
+        weekDays1_ = tmp;
+    } else {
+        weekDays2_ = tmp;
     }
 }
 

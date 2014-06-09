@@ -45,13 +45,13 @@
 
 -(void)initialize
 {
-//    UILabel *userName= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 40, 28)];
-//    userName.text = @"帐号:";
-//    userName.font = [UIFont systemFontOfSize:14];
-//    userName.backgroundColor = [UIColor clearColor];
-//    self.leftView = userName;
-//    [userName release];
-//    self.leftViewMode = UITextFieldViewModeAlways;
+    UILabel *userName= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 40, 28)];
+    userName.text = @"帐号:";
+    userName.font = [UIFont systemFontOfSize:14];
+    userName.backgroundColor = [UIColor clearColor];
+    self.leftView = userName;
+    [userName release];
+    self.leftViewMode = UITextFieldViewModeAlways;
     _showComboBox = NO;
 }
 

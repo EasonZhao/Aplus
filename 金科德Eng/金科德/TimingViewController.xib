@@ -9,6 +9,16 @@
             <connections>
                 <outlet property="countDownOnOff" destination="jmS-Lb-UXe" id="O2x-FZ-CmS"/>
                 <outlet property="countDownTimer" destination="3en-MT-yZJ" id="eNP-tA-2RX"/>
+                <outlet property="digGroup" destination="xqx-18-9HA" id="dFY-ze-WyF"/>
+                <outlet property="digOffEdit" destination="NR5-3e-PLv" id="LuB-sJ-L6W"/>
+                <outlet property="digOnEdit" destination="H7R-M3-plh" id="ug2-Cd-MFx"/>
+                <outlet property="digWeekBtn1" destination="g1J-Vh-Wwq" id="ihB-az-5EH"/>
+                <outlet property="digWeekBtn2" destination="9SU-ne-UfK" id="6Qz-cf-iIS"/>
+                <outlet property="digWeekBtn3" destination="FwA-94-FwG" id="lWC-6W-avC"/>
+                <outlet property="digWeekBtn4" destination="d6o-Qf-uMo" id="baU-Qi-jT5"/>
+                <outlet property="digWeekBtn5" destination="7fo-WY-fjJ" id="ghH-Ql-fZI"/>
+                <outlet property="digWeekBtn6" destination="Squ-ov-Ohc" id="XHO-7f-VZg"/>
+                <outlet property="digWeekBtn7" destination="Wne-ZB-38n" id="PqP-jT-gx4"/>
                 <outlet property="digitalTimer" destination="tZM-gA-2af" id="Tw7-tD-WwD"/>
                 <outlet property="minEdit" destination="zfl-O7-M4R" id="PfI-DH-6g9"/>
                 <outlet property="setMin200" destination="uYy-yU-e9p" id="lX2-ed-F1T"/>
@@ -93,7 +103,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="UPq-w4-NOI"/>
+                                <action selector="setDigTimerWeekArg:" destination="-1" eventType="touchUpInside" id="GVs-MY-g5W"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="2" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9SU-ne-UfK">
@@ -109,7 +119,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="Vp3-it-Kby"/>
+                                <action selector="setDigTimerWeekArg:" destination="-1" eventType="touchUpInside" id="F3n-ir-53s"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="3" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FwA-94-FwG">
@@ -125,7 +135,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="CgL-re-bdK"/>
+                                <action selector="setDigTimerWeekArg:" destination="-1" eventType="touchUpInside" id="EsN-bF-OlY"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="4" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="d6o-Qf-uMo">
@@ -141,7 +151,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="pGy-NV-wvV"/>
+                                <action selector="setDigTimerWeekArg:" destination="-1" eventType="touchUpInside" id="A1B-S8-FmY"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="5" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7fo-WY-fjJ">
@@ -157,7 +167,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="7zM-fY-mrd"/>
+                                <action selector="setDigTimerWeekArg:" destination="-1" eventType="touchUpInside" id="iLh-wf-S2h"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="6" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Squ-ov-Ohc">
@@ -173,7 +183,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="QIx-09-KzK"/>
+                                <action selector="setDigTimerWeekArg:" destination="-1" eventType="touchUpInside" id="pMZ-fD-Ykh"/>
                             </connections>
                         </button>
                         <button opaque="NO" tag="7" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Wne-ZB-38n">
@@ -189,7 +199,7 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="toggle:" destination="-1" eventType="touchUpInside" id="KkE-aq-BDs"/>
+                                <action selector="setDigTimerWeekArg:" destination="-1" eventType="touchUpInside" id="gEN-2g-Dh9"/>
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Digital Timer List" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iep-mv-uXU">
@@ -212,8 +222,18 @@
                             </state>
                             <connections>
                                 <action selector="changeTimingType:" destination="-1" eventType="touchUpInside" id="af8-L8-cRS"/>
+                                <action selector="setDigEnable:" destination="-1" eventType="touchUpInside" id="W7L-SZ-YvH"/>
                             </connections>
                         </button>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ver_picker" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="xqx-18-9HA" customClass="ComboboxPicker">
+                            <rect key="frame" x="219" y="35" width="44" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <action selector="textFieldChange:" destination="-1" eventType="valueChanged" id="Gdy-oF-w8b"/>
+                            </connections>
+                        </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
@@ -242,12 +262,6 @@
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ver_picker" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="xqx-18-9HA" customClass="TextPicker">
-                            <rect key="frame" x="75" y="34" width="97" height="21"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="ehm-ze-qAn" customClass="TextPicker">
                             <rect key="frame" x="75" y="64" width="97" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
