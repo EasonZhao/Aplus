@@ -195,7 +195,7 @@ static NetKit *instance_ = nil;
         int devID = pData[22];
         Byte type = pData[23];
         switch (type) {
-            case 0xa1:
+            case 0x01:
                 for (id tmp in switchDeviceDelegates_) {
                     [tmp switchDeviceHandler:pData[23]==0x01 ? YES : NO
                                        devID:devID];
@@ -465,7 +465,7 @@ static NetKit *instance_ = nil;
         0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
         0x01,           //设备类型
         devID,           //设备编号(22)
-        0x02,            //控制类型 0x02代表定时
+        0x02            //控制类型 0x02代表定时
     };
     //计算长度
     cmd[2] = sizeof(cmd)-2 +1 + [weekdays count] *6;

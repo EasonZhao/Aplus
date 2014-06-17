@@ -69,8 +69,10 @@
     if (devID==self.devID) {
         if ([self.statusLbl.text isEqualToString:@"OFF"]) {
             self.statusLbl.text = @"ON";
+            isON = YES;
         } else if ([self.statusLbl.text isEqualToString:@"ON"]) {
             self.statusLbl.text = @"OFF";
+            isON = NO;
         }
         [self.button setEnabled:YES];
     }

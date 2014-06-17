@@ -127,9 +127,11 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     switch ([ada getState]) {
         case ADA_ON:
             [cell.statusLbl setText:@"ON"];
+            cell.isON = YES;
             break;
         case ADA_OFF:
             [cell.statusLbl setText:@"OFF"];
+            cell.isON = NO;
             break;
         default:
             break;
