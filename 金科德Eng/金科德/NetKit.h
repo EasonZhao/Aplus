@@ -61,6 +61,10 @@ typedef struct
 
 - (void)allOff;
 
+- (void)correctTime:(Byte)weekDay hour:(Byte)hour min:(Byte)min sec:(Byte)sec;
+
+- (void)reqStat:(Byte)devID;
+
 + (NetKit*)instance;
 
 @property(nonatomic, retain)id onOffDelegate;

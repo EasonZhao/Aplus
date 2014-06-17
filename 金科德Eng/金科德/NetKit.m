@@ -497,4 +497,50 @@ static NetKit *instance_ = nil;
     [data bytes];
     [self sendData:[NSData dataWithBytes:[data bytes] length:[data length]] socket:clientSocket_];
 }
+
+- (void)correctTime:(Byte)weekDay hour:(Byte)hour min:(Byte)min sec:(Byte)sec
+{
+    Byte* macByte = (Byte*)[netMac_ bytes];
+    Byte* macByte1 = (Byte*)[mac_ bytes];
+    Byte cmd[] =
+    {
+        0x41, 0x54,
+        0x00,   //数据长度
+        //net的mac地址
+        macByte[0], macByte[1], macByte[2], macByte[3], macByte[4], macByte[5],
+        //本机的mac地址
+        macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
+        0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
+        0x01, 0x01,           //设备编号(22)
+        0x04,            //控制类型 0x04代表开校准时间
+        weekDay,
+        hour,
+        min,
+        sec,
+        0xfe
+    };
+    cmd[2] = sizeof(cmd)-2;
+    [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
+}
+
+- (void)reqStat:(Byte)devID
+{
+    Byte* macByte = (Byte*)[netMac_ bytes];
+    Byte* macByte1 = (Byte*)[mac_ bytes];
+    Byte cmd[] =
+    {
+        0x41, 0x54,
+        0x00,   //数据长度
+        //net的mac地址
+        macByte[0], macByte[1], macByte[2], macByte[3], macByte[4], macByte[5],
+        //本机的mac地址
+        macByte1[0], macByte1[1], macByte1[2], macByte1[3], macByte1[4], macByte1[5],
+        0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
+        0x01, devID,           //设备编号(22)
+        0xa4,            //控制类型 0xa4代表状态查询
+        0xfe
+    };
+    cmd[2] = sizeof(cmd)-2;
+    [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
+}
 @end
