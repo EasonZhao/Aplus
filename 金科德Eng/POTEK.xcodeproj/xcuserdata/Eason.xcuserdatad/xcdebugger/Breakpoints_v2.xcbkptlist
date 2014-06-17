@@ -54,22 +54,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x91d1;&#x79d1;&#x5fb7;/NetKit.m"
-            timestampString = "423922851.014061"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "-onUdpSocket:didReceiveData:withTag:fromHost:port:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -218,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/NetKit.m"
-            timestampString = "423922851.014061"
+            timestampString = "424713546.803684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
             landmarkName = "-checkSearchCode:"
             landmarkType = "5">
          </BreakpointContent>
@@ -298,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/TimingViewController.m"
-            timestampString = "423987398.41347"
+            timestampString = "424713546.803684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "-commit:"
             landmarkType = "5">
          </BreakpointContent>
@@ -377,13 +361,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x91d1;&#x79d1;&#x5fb7;/SwitchDetailViewController.m"
-            timestampString = "424709433.31698"
+            filePath = "&#x91d1;&#x79d1;&#x5fb7;/TextPicker.m"
+            timestampString = "424713281.977217"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "-cancelBtnCilcked"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -393,29 +377,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "&#x91d1;&#x79d1;&#x5fb7;/SwitchDetailViewController.m"
-            timestampString = "424709480.848821"
+            filePath = "&#x91d1;&#x79d1;&#x5fb7;/NetKit.m"
+            timestampString = "424713597.84944"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "-switchDeviceHandler:devID:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x91d1;&#x79d1;&#x5fb7;/HomeTableView.m"
-            timestampString = "424709891.26907"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "554"
+            endingLineNumber = "554"
+            landmarkName = "-reqStat:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

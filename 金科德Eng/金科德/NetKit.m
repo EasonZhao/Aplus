@@ -17,7 +17,7 @@
 static NetKit *instance_ = nil;
 
 #define GROUP_IP @"255.255.255.255"
-//#define GROUP_IP @"58.39.72.59"
+//#define GROUP_IP @"180.174.229.244"
 #define GROUP_PORT  18890
 #define CLIENT_PORT 18891
 //long GROUP_ID=1;
@@ -182,6 +182,7 @@ static NetKit *instance_ = nil;
             [arr addObject:ada];
             pos += 3;
         }
+        NSLog(@"搜索到%d个设备", [arr count]);
         [checkSearchCodeDelegate_ checkSearchCodeHandler:YES Devs:arr];
         
     } else if (sock==clientSocket_) {
@@ -200,26 +201,35 @@ static NetKit *instance_ = nil;
                     [tmp switchDeviceHandler:pData[23]==0x01 ? YES : NO
                                        devID:devID];
                 }
+                NSLog(@"开关控制返回，devID:%d", devID);
                 return YES;
                 break;
             case 0xa5:
             {
                 [addDeviceDelegate_ addDeviceHandler:YES];
+                NSLog(@"添加设备控制返回");
                 return YES;
                 break;
             }
             case 0xa7:
                 [delDeviceDelegate_ delDeviceHandler:YES devID:pData[21]];
+                NSLog(@"删除设备控制返回");
                 return YES;
                 break;
             case 0x05:
                 [self.onOffDelegate allOnOffHandler];
+                NSLog(@"全部控制返回");
                 break;
             case 0x03:
                 [countdownDelegate_ countdownHandler:YES devID:devID];
+                NSLog(@"删除（%d)设备控制返回", devID);
                 break;
             case 0x02:
                 [settimerDelegate_ setTimerHandler:YES devID:devID];
+                NSLog(@"设置定时设备（%d)控制返回", devID);
+                break;
+            case 0xa4:
+                NSLog(@"查询设备状态（%d)指令返回", devID);
                 break;
             default:
                 break;

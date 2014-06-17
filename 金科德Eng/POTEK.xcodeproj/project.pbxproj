@@ -298,7 +298,7 @@
 		9BC5BE0618C0723200353442 /* DBInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC5BE0518C0723200353442 /* DBInterface.m */; };
 		9BC5BE0818C0726800353442 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC5BE0718C0726800353442 /* libsqlite3.dylib */; };
 		9BC5BE0B18C178EA00353442 /* AAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BC5BE0A18C178EA00353442 /* AAdapter.m */; };
-		9BE5B79F1933627800BEA346 /* 上传.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BE5B79E1933627800BEA346 /* 上传.png */; };
+		9BEA8BB11950919D002F0A46 /* 上传.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BEA8BB01950919D002F0A46 /* 上传.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -683,7 +683,7 @@
 		9BC5BE0718C0726800353442 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9BC5BE0918C178EA00353442 /* AAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAdapter.h; sourceTree = "<group>"; };
 		9BC5BE0A18C178EA00353442 /* AAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAdapter.m; sourceTree = "<group>"; };
-		9BE5B79E1933627800BEA346 /* 上传.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "上传.png"; sourceTree = "<group>"; };
+		9BEA8BB01950919D002F0A46 /* 上传.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "上传.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -722,7 +722,7 @@
 		8A138E6E1828CF350023246B /* PNG */ = {
 			isa = PBXGroup;
 			children = (
-				9BE5B79E1933627800BEA346 /* 上传.png */,
+				9BEA8BB01950919D002F0A46 /* 上传.png */,
 				8A138FAF1828E7920023246B /* time_h.png */,
 				8A138FB01828E7920023246B /* time_h@2x.png */,
 				8A138FB11828E7920023246B /* time_n.png */,
@@ -1422,7 +1422,7 @@
 				8A138F2A1828CF360023246B /* middlebox@2x.png in Resources */,
 				8A138F0D1828CF360023246B /* bg.png in Resources */,
 				8A138F711828CF360023246B /* 服务.png in Resources */,
-				9BE5B79F1933627800BEA346 /* 上传.png in Resources */,
+				9BEA8BB11950919D002F0A46 /* 上传.png in Resources */,
 				8A138F701828CF360023246B /* 数格@2x.png in Resources */,
 				8A138F951828DB780023246B /* 灯泡_on.png in Resources */,
 				8A138F2C1828CF360023246B /* nameboxpng@2x.png in Resources */,

@@ -83,6 +83,11 @@
     [self resignFirstResponder];
 }
 
+- (void)cancelBtnCilcked
+{
+    if ([self isFirstResponder])
+        [self resignFirstResponder];
+}
 
 -(BOOL)canBecomeFirstResponder
 {
