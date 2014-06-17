@@ -189,7 +189,8 @@ static NetKit *instance_ = nil;
         //如何判断这包数据是开关量的
         Byte* pData = (Byte*)[data bytes];
         //验证数据头
-        if (pData[0]!=0x6f || pData[1]!=0x6b) {
+        //if (pData[0]!=0x6f || pData[1]!=0x6b) {
+        if (pData[0]!=0x41 || pData[1]!=0x54) {
             return FALSE;
         }
         //判断协议类型
