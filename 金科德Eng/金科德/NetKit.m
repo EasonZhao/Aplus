@@ -20,13 +20,12 @@ static NetKit *instance_ = nil;
 //#define GROUP_IP @"180.174.229.244"
 #define GROUP_PORT  18890
 #define CLIENT_PORT 18891
-//long GROUP_ID=1;
-//long CLIENT_ID=2;
 
 @implementation NetKit
 {
     AsyncUdpSocket *groupSocket_;       //广播用socket
     AsyncUdpSocket *clientSocket_;      //net直连socket
+    AsyncUdpSocket *udpSocket_;
     NSData *mac_;                       //本机mac地址
     NSData *netMac_;
     NSMutableArray *ipAddressArr_;
@@ -190,9 +189,10 @@ static NetKit *instance_ = nil;
         Byte* pData = (Byte*)[data bytes];
         //验证数据头
         //if (pData[0]!=0x6f || pData[1]!=0x6b) {
+        /*
         if (pData[0]!=0x41 || pData[1]!=0x54) {
             return FALSE;
-        }
+        }*/
         //判断协议类型
         int devID = pData[22];
         Byte type = pData[23];
@@ -231,6 +231,8 @@ static NetKit *instance_ = nil;
                 break;
             case 0xa4:
                 NSLog(@"查询设备状态（%d)指令返回", devID);
+                NSMutableArray *weekarr = nil;
+                [self getWeekDays:data weekdays:weekarr];
                 break;
             default:
                 break;
@@ -416,8 +418,22 @@ static NetKit *instance_ = nil;
 
 - (void)allOn
 {
-    Byte* macByte = (Byte*)[netMac_ bytes];
-    Byte* macByte1 = (Byte*)[mac_ bytes];
+    
+    Byte* macByte = NULL;
+    if ([netMac_ length]==0) {
+        macByte = "123456";
+    } else {
+        macByte = (Byte*)[netMac_ bytes];
+    }
+    
+    Byte* macByte1 = NULL;
+    if ([mac_ length]==0) {
+        macByte1 = "123456";
+    } else {
+        macByte1 = (Byte*)[mac_ bytes];
+    }
+    
+    
     Byte cmd[] =
     {
         0x41, 0x54,
@@ -452,12 +468,35 @@ static NetKit *instance_ = nil;
         0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,             //数据秘钥
         0x01,           //设备类型
         0x00,           //设备编号(22)
-        0x05,            //控制类型 0x01代表开关量控制
+        0x05,            //控制类型 0x05代表控制所有设备
         0xf1,           //开关量(24)
         0xfe
     };
     cmd[2] = sizeof(cmd)-2;
     [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
+}
+
+- (void)getWeekDays:(NSData*)msg weekdays:(NSMutableArray*)weekdays
+{
+    Byte* data = (Byte*)[msg bytes];
+    data += 24;
+    if (weekdays==nil) {
+        weekdays = [[NSMutableArray alloc] init];
+    }
+    for (int i=0; i<3; i++) {
+        
+        WeekDaySet set = {0};
+        set.isON = data[0]&0x80;
+        set.weekday = data[0] & 0x7f;
+        set.onHour = data[1];
+        set.onMin = data[2];
+        set.offHour = data[4];
+        set.offMin = data[5];
+        NSValue *value = nil;
+        value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+        [weekdays addObject:value];
+        data += 6;
+    }
 }
 
 - (void)setTimer:(Byte)devID weekdays:(NSMutableArray*)weekdays delegate:(id)delegate
