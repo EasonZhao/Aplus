@@ -12,6 +12,7 @@
 @interface SwitchDetailViewController : BaseViewController<NetKitDelegate>
 {
     UISlider *lightSlider_;
+    UISlider *colorSlider_;
 }
 @property(nonatomic,retain)NSString *mac;
 @property(nonatomic)BOOL isOn;
@@ -19,5 +20,6 @@
 @property(nonatomic)int devID;
 
 @property(nonatomic,assign)IBOutlet UISlider *lightSlider_;
+@property(nonatomic,assign)IBOutlet UISlider *colorSlider_;
 
 @end

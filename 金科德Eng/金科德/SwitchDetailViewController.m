@@ -16,6 +16,7 @@
 {
     IBOutlet UIButton *switchBtn;
     float lightValue_;
+    float colorValue_;
     NSTimer *timer_;
 }
 
@@ -27,6 +28,7 @@
 @synthesize mac;
 @synthesize deviceInfo;
 @synthesize lightSlider_;
+@synthesize colorSlider_;
 
 - (void)dealloc
 {
@@ -50,13 +52,15 @@
     [super viewDidLoad];
     CGAffineTransform rotation = CGAffineTransformMakeRotation(-1.57079633);
     lightSlider_.transform = rotation;
+    colorSlider_.transform = rotation;
     CGRect ret = lightSlider_.frame;
     ret.origin.x = 28;
     ret.origin.y = 110;
     ret.size.width = 32;
     ret.size.height = 240;
     lightSlider_.frame = ret;
-    
+    ret.origin.x += 230;
+    colorSlider_.frame = ret;
     [lightSlider_ addTarget:self action:@selector(startDrag:) forControlEvents:UIControlEventTouchDown];
     
     //[lightSlider_ addTarget:self action:@selector(updateThumb:) forControlEvents:UIControlEventValueChanged];
@@ -71,7 +75,12 @@
 - (void)endDrag:(UISlider *)aSlider
 {
     NSLog(@"value:%f", aSlider.value);
-    [[NetKit instance] setLightValue:devID value:aSlider.value delegate:self];
+    if (aSlider==lightSlider_) {
+        [[NetKit instance] setLightValue:devID value:aSlider.value delegate:self];
+    } else if (aSlider==colorSlider_) {
+        [[NetKit instance] setColorValue:devID value:aSlider.value delegate:self];
+    }
+    
     //提示
     timer_ = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
     [SVProgressHUD showWithStatus:@"请稍后..." maskType:SVProgressHUDMaskTypeClear];
@@ -79,7 +88,11 @@
 
 - (void)startDrag:(UISlider *)slider
 {
-    lightValue_ = slider.value;
+    if (slider==lightSlider_) {
+        lightValue_ = slider.value;
+    } else if (slider==colorSlider_) {
+        colorValue_ = slider.value;
+    }
 }
 
 - (IBAction)switchON:(UIButton *)sender {
