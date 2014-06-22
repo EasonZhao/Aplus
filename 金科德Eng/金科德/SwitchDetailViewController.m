@@ -10,11 +10,13 @@
 #import "CountDownViewController.h"
 #import "TimingViewController.h"
 #import "EditViewController.h"
-
+#import "SVProgressHUD.h"
 
 @interface SwitchDetailViewController ()
 {
     IBOutlet UIButton *switchBtn;
+    float lightValue_;
+    NSTimer *timer_;
 }
 
 @end
@@ -55,7 +57,7 @@
     ret.size.height = 240;
     lightSlider_.frame = ret;
     
-    //[lightSlider_ addTarget:self action:@selector(startDrag:) forControlEvents:UIControlEventTouchDown];
+    [lightSlider_ addTarget:self action:@selector(startDrag:) forControlEvents:UIControlEventTouchDown];
     
     //[lightSlider_ addTarget:self action:@selector(updateThumb:) forControlEvents:UIControlEventValueChanged];
     
@@ -66,10 +68,18 @@
     switchBtn.selected = isOn;
 }
 
-- (void)endDrag: (UISlider *) aSlider
-
+- (void)endDrag:(UISlider *)aSlider
 {
     NSLog(@"value:%f", aSlider.value);
+    [[NetKit instance] setLightValue:devID value:aSlider.value delegate:self];
+    //提示
+    timer_ = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(timeoutHandle) userInfo:nil repeats:NO];
+    [SVProgressHUD showWithStatus:@"请稍后..." maskType:SVProgressHUDMaskTypeClear];
+}
+
+- (void)startDrag:(UISlider *)slider
+{
+    lightValue_ = slider.value;
 }
 
 - (IBAction)switchON:(UIButton *)sender {
@@ -116,6 +126,31 @@
     if (devID==self.devID) {
         switchBtn.selected = !switchBtn.selected;
         self.isOn = switchBtn.selected;
+    }
+}
+
+- (void)timeoutHandle
+{
+    lightSlider_.value = lightValue_;
+    [SVProgressHUD showErrorWithStatus:@"指令失败"];
+}
+
+- (void)setLightValueHandler:(BOOL)success devID:(Byte)devID
+{
+    if (devID!=self.devID) {
+        return;
+    }
+    if ([timer_ isValid]&&timer_) {
+        [timer_ invalidate];
+    }
+    if (success) {
+        if (!switchBtn.selected) {
+            switchBtn.selected = YES;
+            isOn = YES;
+        }
+        [SVProgressHUD showSuccessWithStatus:@"成功"];
+    } else {
+        [SVProgressHUD showErrorWithStatus:@"指令失败"];
     }
 }
 @end

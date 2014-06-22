@@ -21,7 +21,6 @@
 -(IBAction)allOn:(id)sender;
 -(IBAction)allOff:(id)sender;
 
-
 @end
 
 @implementation HomeTableView

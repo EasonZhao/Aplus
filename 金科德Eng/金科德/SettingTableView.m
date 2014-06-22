@@ -69,6 +69,7 @@ static CGFloat _s_unHeight1 = RAND_MAX;
     }
     return _s_unHeight1;
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 3;
@@ -126,7 +127,7 @@ static CGFloat _s_unHeight1 = RAND_MAX;
 
 -(void)addDeviceHandler:(BOOL)success
 {
-    if (timer_ && [timer_ isValid]) {
+    if ([timer_ isValid]&&timer_) {
         [timer_ invalidate];
     }
     if (success) {
