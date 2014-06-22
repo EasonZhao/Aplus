@@ -24,6 +24,7 @@
 @synthesize devID;
 @synthesize mac;
 @synthesize deviceInfo;
+@synthesize lightSlider_;
 
 - (void)dealloc
 {
@@ -45,10 +46,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    CGAffineTransform rotation = CGAffineTransformMakeRotation(-1.57079633);
+    lightSlider_.transform = rotation;
+    CGRect ret = lightSlider_.frame;
+    ret.origin.x = 28;
+    ret.origin.y = 110;
+    ret.size.width = 32;
+    ret.size.height = 240;
+    lightSlider_.frame = ret;
+    
+    //[lightSlider_ addTarget:self action:@selector(startDrag:) forControlEvents:UIControlEventTouchDown];
+    
+    //[lightSlider_ addTarget:self action:@selector(updateThumb:) forControlEvents:UIControlEventValueChanged];
+    
+    [lightSlider_ addTarget:self action:@selector(endDrag:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+       // Do any additional setup after loading the view from its nib.
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];
 //    self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(back:) ImageName:@"back"];
     switchBtn.selected = isOn;
+}
+
+- (void)endDrag: (UISlider *) aSlider
+
+{
+    NSLog(@"value:%f", aSlider.value);
 }
 
 - (IBAction)switchON:(UIButton *)sender {

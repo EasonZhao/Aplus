@@ -112,7 +112,7 @@
     verOnEdit.text = [[NSString alloc] initWithString:@"00:00"];
     verOffEdit.text = [[NSString alloc] initWithString:@"00:00"];
     
-    [[NetKit instance] reqStat:0x01 delegate:self];
+    [[NetKit instance] reqStat:devID_ delegate:self];
     
     // Do any additional setup after loading the view from its nib.
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];

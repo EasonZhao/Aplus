@@ -10,10 +10,14 @@
 #import "NetKit.h"
 
 @interface SwitchDetailViewController : BaseViewController<NetKitDelegate>
-
+{
+    UISlider *lightSlider_;
+}
 @property(nonatomic,retain)NSString *mac;
 @property(nonatomic)BOOL isOn;
 @property(nonatomic,retain)NSString *deviceInfo;
 @property(nonatomic)int devID;
+
+@property(nonatomic,assign)IBOutlet UISlider *lightSlider_;
 
 @end
