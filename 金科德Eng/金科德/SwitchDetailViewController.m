@@ -166,4 +166,23 @@
         [SVProgressHUD showErrorWithStatus:@"指令失败"];
     }
 }
+
+- (void)setColorValueHandler:(BOOL)success devID:(Byte)devID
+{
+    if (devID!=self.devID) {
+        return;
+    }
+    if ([timer_ isValid]&&timer_) {
+        [timer_ invalidate];
+    }
+    if (success) {
+        if (!switchBtn.selected) {
+            switchBtn.selected = YES;
+            isOn = YES;
+        }
+        [SVProgressHUD showSuccessWithStatus:@"成功"];
+    } else {
+        [SVProgressHUD showErrorWithStatus:@"指令失败"];
+    }
+}
 @end
