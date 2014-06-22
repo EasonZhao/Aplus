@@ -32,6 +32,14 @@
     UIButton *digWeekBtn6;
     UIButton *digWeekBtn7;
     
+    UIButton *verWeekBtn1;
+    UIButton *verWeekBtn2;
+    UIButton *verWeekBtn3;
+    UIButton *verWeekBtn4;
+    UIButton *verWeekBtn5;
+    UIButton *verWeekBtn6;
+    UIButton *verWeekBtn7;
+    
     UITextField *digOnEdit;
     UITextField *digOffEdit;
 }
@@ -64,6 +72,14 @@
 @property(nonatomic,retain)IBOutlet UIButton *digWeekBtn5;
 @property(nonatomic,retain)IBOutlet UIButton *digWeekBtn6;
 @property(nonatomic,retain)IBOutlet UIButton *digWeekBtn7;
+
+@property(nonatomic,retain)IBOutlet UIButton *verWeekBtn1;
+@property(nonatomic,retain)IBOutlet UIButton *verWeekBtn2;
+@property(nonatomic,retain)IBOutlet UIButton *verWeekBtn3;
+@property(nonatomic,retain)IBOutlet UIButton *verWeekBtn4;
+@property(nonatomic,retain)IBOutlet UIButton *verWeekBtn5;
+@property(nonatomic,retain)IBOutlet UIButton *verWeekBtn6;
+@property(nonatomic,retain)IBOutlet UIButton *verWeekBtn7;
 
 @property(nonatomic,retain)IBOutlet UITextField *digOnEdit;
 @property(nonatomic,retain)IBOutlet UITextField *digOffEdit;

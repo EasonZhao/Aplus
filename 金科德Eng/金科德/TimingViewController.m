@@ -57,6 +57,14 @@
 @synthesize digWeekBtn6;
 @synthesize digWeekBtn7;
 
+@synthesize verWeekBtn1;
+@synthesize verWeekBtn2;
+@synthesize verWeekBtn3;
+@synthesize verWeekBtn4;
+@synthesize verWeekBtn5;
+@synthesize verWeekBtn6;
+@synthesize verWeekBtn7;
+
 @synthesize digOnEdit;
 @synthesize digOffEdit;
 
@@ -82,9 +90,6 @@
         digOffStr1_ = [[NSString alloc] initWithString:@"00:00"];
         digOnStr2_ = [[NSString alloc] initWithString:@"00:00"];
         digOffStr2_ = [[NSString alloc] initWithString:@"00:00"];
-        
-        digOnEdit.text = digOnStr1_;
-        digOffEdit.text = digOffStr1_;
     }
     return self;
 }
@@ -101,6 +106,11 @@
     [self.view addGestureRecognizer:gesture];
     //UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"commit" style:UIBarButtonItemStyleBordered target:self action:@selector(commit:)];
     self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(commit:) ImageName:@"上传"];
+    digOnEdit.text = digOnStr1_;
+    digOffEdit.text = digOffStr1_;
+    
+    verOnEdit.text = [[NSString alloc] initWithString:@"00:00"];
+    verOffEdit.text = [[NSString alloc] initWithString:@"00:00"];
     
     [[NetKit instance] reqStat:0x01 delegate:self];
     
@@ -113,28 +123,18 @@
 - (void)commit:(UIButton *)sender
 {
     BOOL sended = NO;
-    //发送定时命令
-    if (digEnable1_ || digEnable2_) {
-        if ([digOnEdit.text length]==0 ||
-            [digOffEdit.text length]==0) {
-            return;
-        }
+    NSMutableArray *weeks = [NSMutableArray array];
+    //gourp 1
+    if (digEnable1_) {
         NSArray *arr = [digOnStr1_ componentsSeparatedByString:@":"];
-        int onHour1 = [[arr objectAtIndex:0] intValue];
-        int onMin1 = [[arr objectAtIndex:1] intValue];
+        int onHour = [[arr objectAtIndex:0] intValue];
+        int onMin = [[arr objectAtIndex:1] intValue];
         arr = [digOffStr1_ componentsSeparatedByString:@":"];
-        int offHour1 = [[arr objectAtIndex:0] intValue];
-        int offMin1 = [[arr objectAtIndex:1] intValue];
+        int offHour = [[arr objectAtIndex:0] intValue];
+        int offMin = [[arr objectAtIndex:1] intValue];
         
-        arr = [digOnStr2_ componentsSeparatedByString:@":"];
-        int onHour2 = [[arr objectAtIndex:0] intValue];
-        int onMin2 = [[arr objectAtIndex:1] intValue];
-        arr = [digOffStr2_ componentsSeparatedByString:@":"];
-        int offHour2 = [[arr objectAtIndex:0] intValue];
-        int offMin2 = [[arr objectAtIndex:1] intValue];
         //提示
-        if ((onHour1*60+onMin1)>=(offHour1*60+offMin1) &&
-            (onHour2*60+onMin2)>=(offHour2*60+offMin2)) {
+        if ((onHour*60+onMin)>=(offHour*60+offMin)) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
                                                             message: @"Invalid parameter"
                                                            delegate: self
@@ -144,53 +144,59 @@
             [alert release];
             return;
         }
-        NSMutableArray *weeks = [NSMutableArray array];
-        if (digEnable1_) {
-            WeekDaySet set = {0};
-            set.weekday = weekDays1_;
-            set.onHour = onHour1;
-            set.onMin = onMin1;
-            set.offHour = offHour1;
-            set.offMin = offMin1;
-            set.isON = true;
-            NSValue *value = nil;
-            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
-            [weeks addObject:value];
-        } else {
-            WeekDaySet set = {0};
-            NSValue *value = nil;
-            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
-            [weeks addObject:value];
-        }
-        
-        if (digEnable2_) {
-            WeekDaySet set = {0};
-            set.weekday = weekDays2_;
-            set.onHour = onHour2;
-            set.onMin = onMin2;
-            set.offHour = offHour2;
-            set.offMin = offMin2;
-            set.isON = true;
-            NSValue *value = nil;
-            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
-            [weeks addObject:value];
-        } else {
-            WeekDaySet set = {0};
-            NSValue *value = nil;
-            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
-            [weeks addObject:value];
-        }
+        WeekDaySet set = {0};
+        set.weekday = weekDays1_;
+        set.onHour = onHour;
+        set.onMin = onMin;
+        set.offHour = offHour;
+        set.offMin = offMin;
+        set.isON = true;
+        NSValue *value = nil;
+        value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+        [weeks addObject:value];
+    } else {
         WeekDaySet set = {0};
         NSValue *value = nil;
         value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
         [weeks addObject:value];
-        [[NetKit instance] setTimer:devID_ weekdays:weeks delegate:self];
-        sended = YES;
-    } else if (vercationTimer.selected) {
-        if ([verOnEdit.text length]==0 ||
-            [verOffEdit.text length]==0) {
+    }
+    //group 2
+    if (digEnable2_) {
+        NSArray *arr = [digOnStr2_ componentsSeparatedByString:@":"];
+        int onHour = [[arr objectAtIndex:0] intValue];
+        int onMin = [[arr objectAtIndex:1] intValue];
+        arr = [digOffStr2_ componentsSeparatedByString:@":"];
+        int offHour = [[arr objectAtIndex:0] intValue];
+        int offMin = [[arr objectAtIndex:1] intValue];
+        //提示
+        if ((onHour*60+onMin)>=(offHour*60+offMin)) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
+                                                            message: @"Invalid parameter"
+                                                           delegate: self
+                                                  cancelButtonTitle: @"取消"
+                                                  otherButtonTitles: nil];
+            [alert show];
+            [alert release];
             return;
         }
+        WeekDaySet set = {0};
+        set.weekday = weekDays2_;
+        set.onHour = onHour;
+        set.onMin = onMin;
+        set.offHour = offHour;
+        set.offMin = offMin;
+        set.isON = true;
+        NSValue *value = nil;
+        value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+        [weeks addObject:value];
+    } else {
+        WeekDaySet set = {0};
+        NSValue *value = nil;
+        value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+        [weeks addObject:value];
+    }
+    //group 3
+    if (vercationTimer.selected) {
         NSArray *arr = [verOnEdit.text componentsSeparatedByString:@":"];
         int onHour = [[arr objectAtIndex:0] intValue];
         int onMin = [[arr objectAtIndex:1] intValue];
@@ -208,13 +214,6 @@
             [alert release];
             return;
         }
-        NSMutableArray *weeks = [NSMutableArray array];
-        for (int i=0; i<2; i++) {
-            WeekDaySet set = {0};
-            NSValue *value = nil;
-            value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
-            [weeks addObject:value];
-        }
         WeekDaySet set = {0};
         set.weekday = weekDays3_;
         set.onHour = onHour;
@@ -225,9 +224,16 @@
         NSValue *value = nil;
         value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
         [weeks addObject:value];
-        [[NetKit instance] setTimer:devID_ weekdays:weeks delegate:self];
-        sended = YES;
-    } else if (countDownTimer.selected) {
+    } else {
+        WeekDaySet set = {0};
+        NSValue *value = nil;
+        value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
+        [weeks addObject:value];
+    }
+    //发送定时
+    [[NetKit instance] setTimer:devID_ weekdays:weeks delegate:self];
+    sended = YES;
+    if (countDownTimer.selected) {
         int min = [minEdit.text integerValue];
         int hour = min / 60;
         min = min % 60;
@@ -307,7 +313,6 @@
 }
 
 - (IBAction)toggle:(UIButton *)sender {
-    
     sender.selected = !sender.selected;
 }
 
@@ -439,15 +444,6 @@
     [timeEdit release];
 }
 
-- (IBAction)save:(UIButton *)sender {
-    if (!tableView.aryData.count) {
-        return;
-    }
-//    UdpSocket *udp = [[UdpSocket alloc]init];
-//    [udp timingDevice:nil timing:tableView.aryData];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
 - (IBAction)setMinValue:(UIButton *)sender
 {
     if (sender==setMin5) {
@@ -470,14 +466,21 @@
     if (digitalTimer==sender) {
         vercationTimer.selected = NO;
         countDownTimer.selected = NO;
+        if ([digGroup.text isEqualToString:@"1"]) {
+            digEnable1_ = sender.selected;
+        } else {
+            digEnable2_ = sender.selected;
+        }
         return;
     } else if (vercationTimer==sender) {
         digitalTimer.selected = NO;
         countDownTimer.selected = NO;
+        digEnable1_ = digEnable2_ = NO;
         return;
     } else if (countDownTimer==sender) {
         digitalTimer.selected = NO;
         vercationTimer.selected = NO;
+        digEnable1_ = digEnable2_ = NO;
         return;
     }
 }
@@ -602,7 +605,7 @@
     digEnable2_ = set2.isON?YES:NO;
     
     [self textFieldChange:digGroup];
-    /*
+    
     WeekDaySet set3 = {0};
     [[arr objectAtIndex:2] getValue:&set3];
     weekDays3_ = set3.weekday;
@@ -612,6 +615,19 @@
     hour = set3.offHour;
     min = set3.offMin;
     verOffEdit.text = [[NSString alloc] initWithFormat:@"%d:%d", hour, min];
-    vercationTimer.selected = set3.isON?YES:NO;*/
+    vercationTimer.selected = set3.isON?YES:NO;
+    [self updateVerWeekSet];
 }
+
+- (void)updateVerWeekSet
+{
+    verWeekBtn1.selected = weekDays3_&0x01?YES:NO;
+    verWeekBtn2.selected = weekDays3_&0x02?YES:NO;
+    verWeekBtn3.selected = weekDays3_&0x04?YES:NO;
+    verWeekBtn4.selected = weekDays3_&0x08?YES:NO;
+    verWeekBtn5.selected = weekDays3_&0x10?YES:NO;
+    verWeekBtn6.selected = weekDays3_&0x20?YES:NO;
+    verWeekBtn7.selected = weekDays3_&0x40?YES:NO;
+}
+
 @end

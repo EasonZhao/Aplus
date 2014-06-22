@@ -27,6 +27,13 @@
                 <outlet property="setMin90" destination="seq-qE-G2S" id="dRx-Id-EAh"/>
                 <outlet property="verOffEdit" destination="ehm-ze-qAn" id="v47-li-nTv"/>
                 <outlet property="verOnEdit" destination="7ra-9H-AuI" id="hqR-kN-VKz"/>
+                <outlet property="verWeekBtn1" destination="OMV-L8-J97" id="dEO-pX-2lv"/>
+                <outlet property="verWeekBtn2" destination="sKd-Mf-OjG" id="1iU-2s-UQV"/>
+                <outlet property="verWeekBtn3" destination="mnj-bO-Uxa" id="S2v-ZM-xFI"/>
+                <outlet property="verWeekBtn4" destination="7Fc-dM-9tq" id="mbO-85-Taf"/>
+                <outlet property="verWeekBtn5" destination="g9U-CA-BfG" id="5f2-rz-PHC"/>
+                <outlet property="verWeekBtn6" destination="tEd-ut-a6Z" id="enS-RB-9SO"/>
+                <outlet property="verWeekBtn7" destination="suW-EO-nnY" id="Vuk-iS-f11"/>
                 <outlet property="vercationTimer" destination="WeR-6M-0Sq" id="RDq-xK-tu2"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
