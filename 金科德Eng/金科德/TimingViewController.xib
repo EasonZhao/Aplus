@@ -26,7 +26,7 @@
                 <outlet property="setMin5" destination="80O-Sz-zJk" id="wgG-oO-Hbh"/>
                 <outlet property="setMin90" destination="seq-qE-G2S" id="dRx-Id-EAh"/>
                 <outlet property="verOffEdit" destination="ehm-ze-qAn" id="v47-li-nTv"/>
-                <outlet property="verOnEdit" destination="xqx-18-9HA" id="GwN-vf-6oU"/>
+                <outlet property="verOnEdit" destination="7ra-9H-AuI" id="hqR-kN-VKz"/>
                 <outlet property="vercationTimer" destination="WeR-6M-0Sq" id="RDq-xK-tu2"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -83,12 +83,18 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <action selector="verOnTextFieldChange:" destination="-1" eventType="valueChanged" id="isN-51-7lb"/>
+                            </connections>
                         </textField>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="NR5-3e-PLv" customClass="TextPicker">
                             <rect key="frame" x="75" y="64" width="97" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <action selector="verOffTextFieldChange:" destination="-1" eventType="valueChanged" id="z0e-gD-b8z"/>
+                            </connections>
                         </textField>
                         <button opaque="NO" tag="1" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="g1J-Vh-Wwq">
                             <rect key="frame" x="75" y="94" width="24" height="20"/>
@@ -226,7 +232,7 @@
                             </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="ver_picker" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="xqx-18-9HA" customClass="ComboboxPicker">
-                            <rect key="frame" x="219" y="35" width="44" height="20"/>
+                            <rect key="frame" x="239" y="34" width="44" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <textInputTraits key="textInputTraits"/>
@@ -234,6 +240,13 @@
                                 <action selector="textFieldChange:" destination="-1" eventType="valueChanged" id="Gdy-oF-w8b"/>
                             </connections>
                         </textField>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Group:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hja-RM-Slo">
+                            <rect key="frame" x="182" y="35" width="54" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
@@ -264,6 +277,12 @@
                         </label>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="ehm-ze-qAn" customClass="TextPicker">
                             <rect key="frame" x="75" y="64" width="97" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" id="7ra-9H-AuI" customClass="TextPicker">
+                            <rect key="frame" x="75" y="37" width="97" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <textInputTraits key="textInputTraits"/>

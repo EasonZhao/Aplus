@@ -21,6 +21,10 @@
     Byte weekDays3_;
     BOOL digEnable1_;
     BOOL digEnable2_;
+    NSString *digOnStr1_;
+    NSString *digOffStr1_;
+    NSString *digOnStr2_;
+    NSString *digOffStr2_;
 }
 
 @end
@@ -74,6 +78,13 @@
         weekDays3_ = 0x7f;
         digEnable1_ = NO;
         digEnable2_ = NO;
+        digOnStr1_ = [[NSString alloc] initWithString:@"00:00"];
+        digOffStr1_ = [[NSString alloc] initWithString:@"00:00"];
+        digOnStr2_ = [[NSString alloc] initWithString:@"00:00"];
+        digOffStr2_ = [[NSString alloc] initWithString:@"00:00"];
+        
+        digOnEdit.text = digOnStr1_;
+        digOffEdit.text = digOffStr1_;
     }
     return self;
 }
@@ -91,7 +102,7 @@
     //UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"commit" style:UIBarButtonItemStyleBordered target:self action:@selector(commit:)];
     self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(commit:) ImageName:@"上传"];
     
-    [[NetKit instance] reqStat:0x01];
+    [[NetKit instance] reqStat:0x01 delegate:self];
     
     // Do any additional setup after loading the view from its nib.
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];
@@ -108,14 +119,22 @@
             [digOffEdit.text length]==0) {
             return;
         }
-        NSArray *arr = [digOnEdit.text componentsSeparatedByString:@":"];
-        int onHour = [[arr objectAtIndex:0] intValue];
-        int onMin = [[arr objectAtIndex:1] intValue];
-        arr = [digOffEdit.text componentsSeparatedByString:@":"];
-        int offHour = [[arr objectAtIndex:0] intValue];
-        int offMin = [[arr objectAtIndex:1] intValue];
+        NSArray *arr = [digOnStr1_ componentsSeparatedByString:@":"];
+        int onHour1 = [[arr objectAtIndex:0] intValue];
+        int onMin1 = [[arr objectAtIndex:1] intValue];
+        arr = [digOffStr1_ componentsSeparatedByString:@":"];
+        int offHour1 = [[arr objectAtIndex:0] intValue];
+        int offMin1 = [[arr objectAtIndex:1] intValue];
+        
+        arr = [digOnStr2_ componentsSeparatedByString:@":"];
+        int onHour2 = [[arr objectAtIndex:0] intValue];
+        int onMin2 = [[arr objectAtIndex:1] intValue];
+        arr = [digOffStr2_ componentsSeparatedByString:@":"];
+        int offHour2 = [[arr objectAtIndex:0] intValue];
+        int offMin2 = [[arr objectAtIndex:1] intValue];
         //提示
-        if ((onHour*60+onMin)>=(offHour*60+offMin)) {
+        if ((onHour1*60+onMin1)>=(offHour1*60+offMin1) &&
+            (onHour2*60+onMin2)>=(offHour2*60+offMin2)) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @""
                                                             message: @"Invalid parameter"
                                                            delegate: self
@@ -129,10 +148,10 @@
         if (digEnable1_) {
             WeekDaySet set = {0};
             set.weekday = weekDays1_;
-            set.onHour = onHour;
-            set.onMin = onMin;
-            set.offHour = offHour;
-            set.offMin = offMin;
+            set.onHour = onHour1;
+            set.onMin = onMin1;
+            set.offHour = offHour1;
+            set.offMin = offMin1;
             set.isON = true;
             NSValue *value = nil;
             value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
@@ -147,10 +166,10 @@
         if (digEnable2_) {
             WeekDaySet set = {0};
             set.weekday = weekDays2_;
-            set.onHour = onHour;
-            set.onMin = onMin;
-            set.offHour = offHour;
-            set.offMin = offMin;
+            set.onHour = onHour2;
+            set.onMin = onMin2;
+            set.offHour = offHour2;
+            set.offMin = offMin2;
             set.isON = true;
             NSValue *value = nil;
             value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
@@ -232,6 +251,24 @@
     [SVProgressHUD showErrorWithStatus:@"指令失败"];
 }
 
+- (IBAction)verOnTextFieldChange:(UITextField *)textField
+{
+    if ([digGroup.text isEqualToString:@"1"]) {
+        digOnStr1_ = [textField.text copy];
+    } else if([digGroup.text isEqualToString:@"2"]) {
+        digOnStr2_ = textField.text;
+    }
+}
+
+- (IBAction)verOffTextFieldChange:(UITextField *)textField
+{
+    if ([digGroup.text isEqualToString:@"1"]) {
+        digOffStr1_ = [textField.text copy];
+    } else if([digGroup.text isEqualToString:@"2"]) {
+        digOffStr2_ = textField.text;
+    }
+}
+
 - (IBAction)textFieldChange:(UITextField *)textField
 {
     if ([textField.text isEqualToString:@"1"]) {
@@ -244,6 +281,8 @@
         digWeekBtn7.selected = weekDays1_ & 0x40 ? YES : NO;
         
         digitalTimer.selected = digEnable1_;
+        self.digOnEdit.text = digOnStr1_==nil?@"":digOnStr1_;
+        self.digOffEdit.text = digOffStr1_==nil?@"":digOffStr1_;
     } else if ([textField.text isEqualToString:@"2"]) {
         BOOL tmp = NO;
         tmp = weekDays2_ & 0x01 ? YES : NO;
@@ -261,6 +300,8 @@
         tmp = weekDays2_ & 0x40 ? YES : NO;
         digWeekBtn7.selected = tmp;
         
+        self.digOnEdit.text = digOnStr2_==nil?@"":digOnStr2_;
+        self.digOffEdit.text = digOffStr2_==nil?@"":digOffStr2_;
         digitalTimer.selected = digEnable2_;
     }
 }
@@ -520,7 +561,7 @@
 
 - (void)setTimerHandler:(BOOL)success devID:(Byte)devID
 {
-    if (timer_ && [timer_ isValid]) {
+    if ([timer_ isValid] && timer_) {
         [timer_ invalidate];
     }
     if (success) {
@@ -529,5 +570,48 @@
     } else {
         [SVProgressHUD showErrorWithStatus:@"指令失败"];
     }
+}
+
+- (void)reqStatHandler:(BOOL)success weeks:(NSMutableArray *)arr devID:(Byte)devID
+{
+    if (devID!=devID_) {
+        NSLog(@"dev id Err on reqStat handle");
+        return;
+    }
+    int hour=0, min=0;
+    WeekDaySet set1 = {0};
+    [[arr objectAtIndex:0] getValue:&set1];
+    weekDays1_ = set1.weekday;
+    hour = set1.onHour;
+    min = set1.onMin;
+    digOnStr1_ = [[NSString alloc] initWithFormat:@"%d:%d", hour, min];
+    hour = set1.offHour;
+    min = set1.offMin;
+    digOffStr1_ = [[NSString alloc] initWithFormat:@"%d:%d", hour, min];
+    digEnable1_ = set1.isON?YES:NO;
+    
+    WeekDaySet set2 = {0};
+    [[arr objectAtIndex:1] getValue:&set2];
+    weekDays2_ = set2.weekday;
+    hour = set2.onHour;
+    min = set2.onMin;
+    digOnStr2_ = [[NSString alloc] initWithFormat:@"%d:%d", hour, min];
+    hour = set2.offHour;
+    min = set2.offMin;
+    digOffStr2_ = [[NSString alloc] initWithFormat:@"%d:%d", hour, min];
+    digEnable2_ = set2.isON?YES:NO;
+    
+    [self textFieldChange:digGroup];
+    /*
+    WeekDaySet set3 = {0};
+    [[arr objectAtIndex:2] getValue:&set3];
+    weekDays3_ = set3.weekday;
+    hour = set3.onHour;
+    min = set3.onMin;
+    verOnEdit.text = [[NSString alloc] initWithFormat:@"%d:%d", hour, min];
+    hour = set3.offHour;
+    min = set3.offMin;
+    verOffEdit.text = [[NSString alloc] initWithFormat:@"%d:%d", hour, min];
+    vercationTimer.selected = set3.isON?YES:NO;*/
 }
 @end

@@ -25,7 +25,6 @@ static NetKit *instance_ = nil;
 {
     AsyncUdpSocket *groupSocket_;       //广播用socket
     AsyncUdpSocket *clientSocket_;      //net直连socket
-    AsyncUdpSocket *udpSocket_;
     NSData *mac_;                       //本机mac地址
     NSData *netMac_;
     NSMutableArray *ipAddressArr_;
@@ -36,6 +35,7 @@ static NetKit *instance_ = nil;
     id delDeviceDelegate_;
     id countdownDelegate_;
     id settimerDelegate_;
+    id reqStatDelegate_;
     
     //id switchDeviceDelegate_;
     NSMutableArray *switchDeviceDelegates_;
@@ -191,6 +191,7 @@ static NetKit *instance_ = nil;
         //if (pData[0]!=0x6f || pData[1]!=0x6b) {
         /*
         if (pData[0]!=0x41 || pData[1]!=0x54) {
+            NSLog(@"Message header error!!!");
             return FALSE;
         }*/
         //判断协议类型
@@ -232,7 +233,8 @@ static NetKit *instance_ = nil;
             case 0xa4:
                 NSLog(@"查询设备状态（%d)指令返回", devID);
                 NSMutableArray *weekarr = nil;
-                [self getWeekDays:data weekdays:weekarr];
+                [self getWeekDays:data weekdays:&weekarr];
+                [reqStatDelegate_ reqStatHandler:YES weeks:weekarr devID:devID];
                 break;
             default:
                 break;
@@ -476,12 +478,12 @@ static NetKit *instance_ = nil;
     [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
 }
 
-- (void)getWeekDays:(NSData*)msg weekdays:(NSMutableArray*)weekdays
+- (void)getWeekDays:(NSData*)msg weekdays:(NSMutableArray**)weekdays
 {
     Byte* data = (Byte*)[msg bytes];
     data += 24;
-    if (weekdays==nil) {
-        weekdays = [[NSMutableArray alloc] init];
+    if (*weekdays==nil) {
+        *weekdays = [[NSMutableArray alloc] init];
     }
     for (int i=0; i<3; i++) {
         
@@ -494,7 +496,7 @@ static NetKit *instance_ = nil;
         set.offMin = data[5];
         NSValue *value = nil;
         value = [NSValue valueWithBytes:&set objCType:@encode(WeekDaySet)];
-        [weekdays addObject:value];
+        [*weekdays addObject:value];
         data += 6;
     }
 }
@@ -573,8 +575,9 @@ static NetKit *instance_ = nil;
     [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
 }
 
-- (void)reqStat:(Byte)devID
+- (void)reqStat:(Byte)devID delegate:(id)delegate
 {
+    reqStatDelegate_ = delegate;
     Byte* macByte = (Byte*)[netMac_ bytes];
     Byte* macByte1 = (Byte*)[mac_ bytes];
     Byte cmd[] =

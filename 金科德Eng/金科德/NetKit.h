@@ -36,6 +36,8 @@ typedef struct
 
 - (void)setTimerHandler:(BOOL)success devID:(Byte)devID;
 
+- (void)reqStatHandler:(BOOL)success weeks:(NSMutableArray*)arr devID:(Byte)devID;
+
 @end
 
 //网关通信使用
@@ -63,7 +65,7 @@ typedef struct
 
 - (void)correctTime:(Byte)weekDay hour:(Byte)hour min:(Byte)min sec:(Byte)sec;
 
-- (void)reqStat:(Byte)devID;
+- (void)reqStat:(Byte)devID delegate:(id)delegate;
 
 + (NetKit*)instance;
 

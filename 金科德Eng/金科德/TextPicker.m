@@ -107,6 +107,7 @@
     NSString *row1T = [self pickerView:picker titleForRow:row1 forComponent:1];
     self.text = [NSString stringWithFormat:@"%@:%@",row0T,row1T];
     
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
     [self resignFirstResponder];
 }
 
