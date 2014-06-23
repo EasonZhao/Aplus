@@ -75,10 +75,13 @@
 - (void)endDrag:(UISlider *)aSlider
 {
     NSLog(@"value:%f", aSlider.value);
+    int value = 0;
+    value = aSlider.value / 10;
     if (aSlider==lightSlider_) {
-        [[NetKit instance] setLightValue:devID value:aSlider.value delegate:self];
+        
+        [[NetKit instance] setLightValue:devID value:0xb1+value delegate:self];
     } else if (aSlider==colorSlider_) {
-        [[NetKit instance] setColorValue:devID value:aSlider.value delegate:self];
+        [[NetKit instance] setColorValue:devID value:0xd1+value delegate:self];
     }
     
     //提示
@@ -185,4 +188,5 @@
         [SVProgressHUD showErrorWithStatus:@"指令失败"];
     }
 }
+
 @end
