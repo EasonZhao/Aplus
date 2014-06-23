@@ -16,8 +16,8 @@
 
 static NetKit *instance_ = nil;
 
-//#define GROUP_IP @"255.255.255.255"
-#define GROUP_IP @"180.174.229.244"
+#define GROUP_IP @"255.255.255.255"
+//#define GROUP_IP @"180.174.229.244"
 #define GROUP_PORT  18890
 #define CLIENT_PORT 18891
 
