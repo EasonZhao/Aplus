@@ -74,6 +74,8 @@
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];
 //    self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(back:) ImageName:@"back"];
     switchBtn.selected = isOn;
+    
+    [[NetKit instance] reqStat:devID delegate:self];
 }
 
 - (void)endDrag:(UISlider *)aSlider
@@ -201,6 +203,8 @@
 
 - (Byte)convertLightValue:(int)value
 {
+    //亮度十档
+    //
     if (value==0) {
         return 0xBB;
     }
@@ -228,6 +232,48 @@
     return 0x00;
 }
 
+- (int)unconvertLightValue:(Byte)value
+{
+    switch (value) {
+        case 0xBB:
+            return 0;
+            break;
+        case 0xAA:
+            return 10;
+            break;
+        case 0x99:
+            return 20;
+            break;
+        case 0x88:
+            return 30;
+            break;
+        case 0x77:
+            return 40;
+            break;
+        case 0x66:
+            return 50;
+            break;
+        case 0xEE:
+            return 60;
+            break;
+        case 0x44:
+            return 70;
+            break;
+        case 0x33:
+            return 80;
+            break;
+        case 0x22:
+            return 90;
+            break;
+        case 0xDD:
+            return 100;
+            break;
+        default:
+            break;
+    }
+    return 0;
+}
+
 - (Byte)convertColorValue:(int)value
 {
     if (value==0) {
@@ -246,7 +292,7 @@
     } else if (value<60) {
         return 0xD7;
     } else if (value<70) {
-        return 0xD7;
+        return 0xD8;
     } else if (value<80) {
         return 0xD9;
     } else if (value<90) {
@@ -254,7 +300,57 @@
     } else {
         return 0xDB;
     }
-    return 0x00;
+    return 0xD1;
+}
+
+- (int)unconvertColorValue:(Byte)value
+{
+    switch (value) {
+        case 0xD1:
+            return 0;
+            break;
+        case 0xD2:
+            return 10;
+            break;
+        case 0xD3:
+            return 20;
+            break;
+        case 0xD4:
+            return 30;
+            break;
+        case 0xD5:
+            return 40;
+            break;
+        case 0xD6:
+            return 50;
+            break;
+        case 0xD7:
+            return 60;
+            break;
+        case 0xD8:
+            return 70;
+            break;
+        case 0xD9:
+            return 80;
+            break;
+        case 0xDA:
+            return 90;
+            break;
+        case 0xDB:
+            return 100;
+        default:
+            break;
+    }
+    return 0;
+}
+
+- (void)reqStatHandler:(BOOL)success devID:(Byte)devID weeks:(NSMutableArray *)arr countDown:(NSData *)cd lightValue:(Byte)lightValue colorValue:(Byte)colorValue
+{
+    lightValue_ = [self unconvertLightValue:lightValue];
+    colorValue_ = [self unconvertColorValue:colorValue];
+    
+    lightSlider_.value = lightValue_;
+    colorSlider_.value = colorValue_;
 }
 
 @end

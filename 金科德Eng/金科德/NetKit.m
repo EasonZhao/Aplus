@@ -16,8 +16,8 @@
 
 static NetKit *instance_ = nil;
 
-//#define GROUP_IP @"255.255.255.255"
-#define GROUP_IP @"180.174.229.244"
+#define GROUP_IP @"255.255.255.255"
+//#define GROUP_IP @"180.174.229.244"
 #define GROUP_PORT  18890
 #define CLIENT_PORT 18891
 
@@ -215,7 +215,7 @@ static NetKit *instance_ = nil;
                 break;
             }
             case 0xa7:
-                [delDeviceDelegate_ delDeviceHandler:YES devID:pData[21]];
+                [delDeviceDelegate_ delDeviceHandler:YES devID:devID];
                 NSLog(@"删除设备控制返回");
                 return YES;
                 break;
@@ -235,7 +235,8 @@ static NetKit *instance_ = nil;
                 NSLog(@"查询设备状态(%d)指令返回", devID);
                 NSMutableArray *weekarr = nil;
                 [self getWeekDays:data weekdays:&weekarr];
-                [reqStatDelegate_ reqStatHandler:YES weeks:weekarr devID:devID];
+                
+                [reqStatDelegate_ reqStatHandler:YES devID:devID weeks:weekarr countDown:nil lightValue:pData[45] colorValue:pData[46]];
                 break;
             case 0x06:
                 NSLog(@"调光(%d)指令返回", devID);

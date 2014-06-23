@@ -575,7 +575,7 @@
     }
 }
 
-- (void)reqStatHandler:(BOOL)success weeks:(NSMutableArray *)arr devID:(Byte)devID
+- (void)reqStatHandler:(BOOL)success devID:(Byte)devID weeks:(NSMutableArray *)arr countDown:(NSData *)cd lightValue:(Byte)lightValue colorValue:(Byte)colorValue
 {
     if (devID!=devID_) {
         NSLog(@"dev id Err on reqStat handle");

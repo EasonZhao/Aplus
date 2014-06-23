@@ -36,7 +36,7 @@ typedef struct
 
 - (void)setTimerHandler:(BOOL)success devID:(Byte)devID;
 
-- (void)reqStatHandler:(BOOL)success weeks:(NSMutableArray*)arr devID:(Byte)devID;
+- (void)reqStatHandler:(BOOL)success devID:(Byte) devID weeks:(NSMutableArray*)arr countDown:(NSData*)cd lightValue:(Byte)lightValue colorValue:(Byte)colorValue;
 
 - (void)setLightValueHandler:(BOOL)success devID:(Byte)devID;
 
