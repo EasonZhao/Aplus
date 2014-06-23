@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/SwitchDetailViewController.m"
-            timestampString = "425137780.959573"
+            timestampString = "425194547.322458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "-switchON:"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/SwitchDetailViewController.m"
-            timestampString = "425137780.959573"
+            timestampString = "425194547.322458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "-switchON:"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/NetKit.m"
-            timestampString = "425135322.186596"
+            timestampString = "425194547.322458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
+            startingLineNumber = "257"
+            endingLineNumber = "257"
             landmarkName = "-checkSearchCode:"
             landmarkType = "5">
          </BreakpointContent>
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/NetKit.m"
-            timestampString = "425135322.186596"
+            timestampString = "425194547.322458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
             landmarkName = "-sendData:socket:"
             landmarkType = "5">
          </BreakpointContent>
@@ -474,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/NetKit.m"
-            timestampString = "425135322.186596"
+            timestampString = "425194547.322458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "488"
-            endingLineNumber = "488"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
             landmarkName = "-getWeekDays:weekdays:"
             landmarkType = "5">
          </BreakpointContent>
@@ -522,11 +522,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/NetKit.m"
-            timestampString = "425135322.186596"
+            timestampString = "425194547.322458"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "602"
-            endingLineNumber = "602"
+            startingLineNumber = "606"
+            endingLineNumber = "606"
             landmarkName = "-reqStat:delegate:"
             landmarkType = "5">
          </BreakpointContent>
@@ -534,16 +534,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x91d1;&#x79d1;&#x5fb7;/SwitchDetailViewController.m"
-            timestampString = "425137780.959573"
+            timestampString = "425195400.590553"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "-endDrag:"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "-convertLightValue:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

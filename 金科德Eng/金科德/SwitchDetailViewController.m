@@ -62,10 +62,14 @@
     ret.origin.x += 230;
     colorSlider_.frame = ret;
     [lightSlider_ addTarget:self action:@selector(startDrag:) forControlEvents:UIControlEventTouchDown];
-    
+    [colorSlider_ addTarget:self action:@selector(startDrag:) forControlEvents:UIControlEventTouchDown];
     //[lightSlider_ addTarget:self action:@selector(updateThumb:) forControlEvents:UIControlEventValueChanged];
     
     [lightSlider_ addTarget:self action:@selector(endDrag:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+    [colorSlider_ addTarget:self action:@selector(endDrag:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchUpOutside];
+    
+    lightValue_ = lightSlider_.value;
+    colorValue_ = lightSlider_.value;
        // Do any additional setup after loading the view from its nib.
 //    self.navigationItem.leftBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:nil ImageName:@"Wi-Fi"];
 //    self.navigationItem.rightBarButtonItem = [AppWindow getBarItemTitle:@"" Target:self Action:@selector(back:) ImageName:@"back"];
@@ -75,13 +79,12 @@
 - (void)endDrag:(UISlider *)aSlider
 {
     NSLog(@"value:%f", aSlider.value);
-    int value = 0;
-    value = aSlider.value / 10;
     if (aSlider==lightSlider_) {
-        
-        [[NetKit instance] setLightValue:devID value:0xb1+value delegate:self];
+        Byte value = [self convertLightValue:aSlider.value];
+        [[NetKit instance] setLightValue:devID value:value delegate:self];
     } else if (aSlider==colorSlider_) {
-        [[NetKit instance] setColorValue:devID value:0xd1+value delegate:self];
+        Byte value = [self convertColorValue:aSlider.value];
+        [[NetKit instance] setColorValue:devID value:value delegate:self];
     }
     
     //提示
@@ -147,7 +150,12 @@
 
 - (void)timeoutHandle
 {
-    lightSlider_.value = lightValue_;
+    if (lightSlider_.value!=lightValue_) {
+        lightSlider_.value = lightValue_;
+    }
+    if (colorSlider_.value!=colorValue_) {
+        colorSlider_.value = colorValue_;
+    }
     [SVProgressHUD showErrorWithStatus:@"指令失败"];
 }
 
@@ -164,6 +172,7 @@
             switchBtn.selected = YES;
             isOn = YES;
         }
+        lightValue_ = lightSlider_.value;
         [SVProgressHUD showSuccessWithStatus:@"成功"];
     } else {
         [SVProgressHUD showErrorWithStatus:@"指令失败"];
@@ -183,10 +192,69 @@
             switchBtn.selected = YES;
             isOn = YES;
         }
+        colorValue_ = colorSlider_.value;
         [SVProgressHUD showSuccessWithStatus:@"成功"];
     } else {
         [SVProgressHUD showErrorWithStatus:@"指令失败"];
     }
+}
+
+- (Byte)convertLightValue:(int)value
+{
+    if (value==0) {
+        return 0xBB;
+    }
+    else if (value<10) {
+        return 0xaa;
+    } else if (value<20) {
+        return 0x99;
+    } else if (value<30) {
+        return 0x88;
+    } else if (value<40) {
+        return 0x77;
+    } else if (value<50) {
+        return 0x66;
+    } else if (value<60) {
+        return 0xee;
+    } else if (value<70) {
+        return 0x44;
+    } else if (value<80) {
+        return 0x33;
+    } else if (value<90) {
+        return 0x22;
+    } else {
+        return 0xdd;
+    }
+    return 0x00;
+}
+
+- (Byte)convertColorValue:(int)value
+{
+    if (value==0) {
+        return 0xD1;
+    }
+    else if (value<10) {
+        return 0xD2;
+    } else if (value<20) {
+        return 0xD3;
+    } else if (value<30) {
+        return 0xD4;
+    } else if (value<40) {
+        return 0xD5;
+    } else if (value<50) {
+        return 0xD6;
+    } else if (value<60) {
+        return 0xD7;
+    } else if (value<70) {
+        return 0xD7;
+    } else if (value<80) {
+        return 0xD9;
+    } else if (value<90) {
+        return 0xDA;
+    } else {
+        return 0xDB;
+    }
+    return 0x00;
 }
 
 @end

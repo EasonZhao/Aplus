@@ -16,8 +16,8 @@
 
 static NetKit *instance_ = nil;
 
-#define GROUP_IP @"255.255.255.255"
-//#define GROUP_IP @"180.174.229.244"
+//#define GROUP_IP @"255.255.255.255"
+#define GROUP_IP @"180.174.229.244"
 #define GROUP_PORT  18890
 #define CLIENT_PORT 18891
 
@@ -37,7 +37,7 @@ static NetKit *instance_ = nil;
     id settimerDelegate_;
     id reqStatDelegate_;
     id setLightValueDelegate_;
-    
+    id setColorValueDelegate_;
     //id switchDeviceDelegate_;
     NSMutableArray *switchDeviceDelegates_;
 }
@@ -240,6 +240,10 @@ static NetKit *instance_ = nil;
             case 0x06:
                 NSLog(@"调光(%d)指令返回", devID);
                 [setLightValueDelegate_ setLightValueHandler:YES devID:devID];
+                break;
+            case 0x07:
+                NSLog(@"调色(%d)指令返回", devID);
+                [setColorValueDelegate_ setColorValueHandler:YES devID:devID];
                 break;
             default:
                 break;
@@ -627,6 +631,7 @@ static NetKit *instance_ = nil;
 
 - (void)setColorValue:(Byte)devID value:(Byte)value delegate:(id)delegate
 {
+    setColorValueDelegate_ = delegate;
     Byte* macByte = (Byte*)[netMac_ bytes];
     Byte* macByte1 = (Byte*)[mac_ bytes];
     Byte cmd[] =
@@ -646,5 +651,6 @@ static NetKit *instance_ = nil;
     cmd[2] = sizeof(cmd)-2;
     [self sendData:[NSData dataWithBytes:cmd length:sizeof(cmd)] socket:clientSocket_];
 }
+
 
 @end

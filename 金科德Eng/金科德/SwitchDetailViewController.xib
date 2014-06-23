@@ -45,7 +45,7 @@
                                 <action selector="lightSliderChange:" destination="-1" eventType="touchDragExit" id="aKx-ZJ-7H6"/>
                             </connections>
                         </slider>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="nIT-rP-DeL">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="0.0" maxValue="100" id="nIT-rP-DeL">
                             <rect key="frame" x="13" y="20" width="240" height="31"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </slider>
